@@ -12,18 +12,18 @@
  * @author dd
  */
 class Administrator extends CI_Controller {
-    
+
     function __construct()
     {
         // Construct the parent class
-        parent::__construct();        
+        parent::__construct();
         // load model
-        $this->load->model(array('Madministrator'));
+        $this->load->model(array('Madministrator','Mmember'));
     }
     public function index()
     {
         //$this->load->view('admin/template/index');
-        
+
         if($this->session->has_userdata('admin')){
             $this->load->view('admin/template/index');
         }else{
@@ -37,7 +37,7 @@ class Administrator extends CI_Controller {
         }else{
             $this->load->helper(array('form', 'url'));
             $this->load->library('form_validation');
-            
+
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required',
                         array('required' => 'You must provide a %s.')
@@ -79,7 +79,7 @@ class Administrator extends CI_Controller {
         } else {
             redirect('administrator/login');
         }
-        
+
     }
     public function staff_create()
     {
@@ -90,7 +90,7 @@ class Administrator extends CI_Controller {
         } else {
             redirect('administrator/login');
         }
-        
+
     }
     public function data_create()
     {
@@ -106,10 +106,12 @@ class Administrator extends CI_Controller {
             'active'=>$this->input->post('active'),
             'created_at'=>  date('Y-m-d H:i:s'),
             'updated_at'=>  date('Y-m-d H:i:s'),
-            
-            ); 
+
+            );
         $this->Madministrator->insert_entry($data);
         $arr['admin'] = $data;
+        $arr['subject'] = "แจ้งรหัสผ่านทีมงาน";
+        $arr['message'] = $this->load->view('admin/template/email-create-user',$data,TRUE);
         $this->sendMail($arr);
         echo json_encode(array('result'=>TRUE));
     }
@@ -123,15 +125,15 @@ class Administrator extends CI_Controller {
             'email'=>$this->input->post('email'),
             'phon'=>$this->input->post('phon'),
             'active'=>$this->input->post('active'),
-            'updated_at'=>  date('Y-m-d H:i:s'),            
-            ); 
+            'updated_at'=>  date('Y-m-d H:i:s'),
+            );
         $this->Madministrator->update_entry($data);
         echo json_encode(array('result'=>TRUE));
     }
     public function generateuser($permission_id)
     {
         $retrun = $this->Madministrator->getLastId($permission_id);
-        $maxId = $retrun['id']; 
+        $maxId = $retrun['id'];
         $maxId = ($maxId + 1);
         if($permission_id==1){
             return 'admin'.$maxId;
@@ -142,7 +144,7 @@ class Administrator extends CI_Controller {
     public function sendMail($data) {
         $config = Array(
             'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',            
+            'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_port' => 465,
             'smtp_user' => 'pastutor01@gmail.com', // change it to yours
             'smtp_pass' => 'pastutor', // change it to yours
@@ -155,8 +157,8 @@ class Administrator extends CI_Controller {
         $this->email->set_newline("\r\n");
         $this->email->from('pastutor01@gmail.com'); // change it to yours
         $this->email->to($data['admin']['email']);// change it to yours
-        $this->email->subject("แจ้งรหัสผ่านทีมงาน");
-        $this->email->message($this->load->view('admin/template/email-create-user',$data,TRUE));      
+        $this->email->subject($data['subject']);
+        $this->email->message($data['message']);
         if ($this->email->send()) {
             $msg = array('result'=>TRUE);
         } else {
@@ -174,4 +176,19 @@ class Administrator extends CI_Controller {
             redirect('administrator/login');
         }
     }
+    public function forget_password() {
+        $data['admin'] = $this->Madministrator->get_by_email($this->input->post('email'));
+        if($data['admin']){
+            $data['subject'] = "แจ้งการลืมรหัสผ่าน";
+            $data['message'] = $this->load->view('admin/template/email-forget-pass',$data,TRUE);
+            $this->sendMail($data);
+            $this->session->set_flashdata('msg', 'โปรดตรวจสอบอีเมล');
+            $this->session->set_flashdata('success', 'success');
+        }else{
+            $this->session->set_flashdata('error', 'error');
+            $this->session->set_flashdata('error', 'โปรดลองอีกครั้ง');
+        }
+        redirect('administrator/login');
+    }
+    //public function 
 }

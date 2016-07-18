@@ -34,7 +34,7 @@
     <!-- BEGIN BODY -->
     <body >
 
-        <!-- PAGE CONTENT --> 
+        <!-- PAGE CONTENT -->
         <div class="container">
             <div class="text-center">
                 <img src="<?php echo base_url(); ?>img/logo.png" id="logoimg" alt=" Logo" />
@@ -53,38 +53,25 @@
                     </form>
                 </div>
                 <div id="forgot" class="tab-pane">
-                    <form action="index.html" class="form-signin">
+                    <?php echo form_open('admin/forget_password','class="form-signin" id="recover-pass"'); ?>
                         <p class="text-muted text-center btn-block btn btn-primary btn-rect">Enter your valid e-mail</p>
-                        <input type="email"  required="required" placeholder="Your E-mail"  class="form-control" />
+                        <input type="email"  required="required" placeholder="Your E-mail" name="email" class="form-control" />
                         <br />
                         <button class="btn text-muted text-center btn-success" type="submit">Recover Password</button>
                     </form>
-                </div>
-                <div id="signup" class="tab-pane">
-                    <form action="index.html" class="form-signin">
-                        <p class="text-muted text-center btn-block btn btn-primary btn-rect">Please Fill Details To Register</p>
-                        <input type="text" placeholder="First Name" class="form-control" />
-                        <input type="text" placeholder="Last Name" class="form-control" />
-                        <input type="text" placeholder="Username" class="form-control" />
-                        <input type="email" placeholder="Your E-mail" class="form-control" />
-                        <input type="password" placeholder="password" class="form-control" />
-                        <input type="password" placeholder="Re type password" class="form-control" />
-                        <button class="btn text-muted text-center btn-success" type="submit">Register</button>
-                    </form>
-                </div>
+                </div>              
             </div>
             <div class="text-center">
                 <ul class="list-inline">
                     <li><a class="text-muted" href="#login" data-toggle="tab">Login</a></li>
                     <li><a class="text-muted" href="#forgot" data-toggle="tab">Forgot Password</a></li>
-                    <li><a class="text-muted" href="#signup" data-toggle="tab">Signup</a></li>
                 </ul>
             </div>
 
 
         </div>
-
-        <!--END PAGE CONTENT -->     
+<?php $this->load->view('admin/template/modals') ?>
+        <!--END PAGE CONTENT -->
 
         <!-- PAGE LEVEL SCRIPTS -->
         <script src="<?php echo base_url(); ?>assets/plugins/jquery-2.0.3.min.js"></script>
@@ -103,8 +90,19 @@
                 jQuery("#inline-validate").validationEngine();
                 $("#inline-validate").bind("jqv.field.result", function (event, field, errorFound, prompText) {
                     console.log(errorFound)
-                })
+                })               
             });
+           $(document).ready(function() {
+               <?php if($this->session->flashdata('msg')){ ?>
+                    <?php  if($this->session->flashdata('success')=='success'){ ?>
+                            $('#md-success h5').text('<?=$this->session->flashdata('msg')?>');
+                            $('#md-success').modal('show');
+                    <?php    }else{ ?>
+                            $('#md-error h5').text('<?=$this->session->flashdata('msg')?>');
+                            $('#md-error').modal('show');
+                    <?php    }  ?>                  
+                <?php } ?>
+           });
         </script>
         <!--END PAGE validationengine SCRIPTS -->
 

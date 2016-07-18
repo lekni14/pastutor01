@@ -104,7 +104,7 @@ class Mapplication extends CI_Model {
         if($sesion['permission_id']==2){
             $this->db->where('admin_id',$sesion['id']);
         }
-        if($_POST['length'] != -2)
+        if($_POST['length'] != -1)
             
         $this->db->$where('application_flow_id',$fiter);
         $this->db->where('applicantion.course_id', $_POST['course_id']);

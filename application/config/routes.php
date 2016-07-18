@@ -73,6 +73,7 @@ $route['forget-password'] = 'Member/forget_password';
 
 /*admin  */
 $route['administrator'] = 'admin/Administrator';
+$route['admin/forget_password'] = 'admin/Administrator/forget_password';
 $route['administrator/login'] = 'admin/Administrator/login';
 $route['administrator/payment'] = 'admin/Payment/index';
 $route['administrator/no-payment'] = 'admin/Payment/NOPayment';

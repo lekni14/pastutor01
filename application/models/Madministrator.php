@@ -15,7 +15,7 @@ class Madministrator extends CI_Model {
     function __construct()
     {
         // Construct the parent class
-        parent::__construct();        
+        parent::__construct();
         // load model
         $this->load->model(array('Mpermission'));
     }
@@ -24,7 +24,7 @@ class Madministrator extends CI_Model {
         $this->db->where('active',1);
         $this->db->where('username',$data['username']);
         $this->db->where('password',$data['password']);
-        $query = $this->db->get('administrator');        
+        $query = $this->db->get('administrator');
         if ($query->num_rows() == 1) {
             $return = $query->row_array();
             $return['permission'] = $this->Mpermission->getPermission($return['permission_id']);
@@ -51,7 +51,7 @@ class Madministrator extends CI_Model {
     }
     public function insert_entry($data)
     {
-        $this->db->insert('administrator', $data);        
+        $this->db->insert('administrator', $data);
         $insert_id = $this->db->insert_id();
         //$data['id'] = $insert_id;
         //$this->session->set_userdata('login',$data);
@@ -59,20 +59,20 @@ class Madministrator extends CI_Model {
     }
     public function update_entry($data)
     {
-        $this->db->where('id',$data['id']);        
-        $this->db->update('administrator',$data);  
+        $this->db->where('id',$data['id']);
+        $this->db->update('administrator',$data);
     }
     public function getById($id)
     {
-        $this->db->where('id',$id);   
-        $query = $this->db->get('administrator');            
+        $this->db->where('id',$id);
+        $query = $this->db->get('administrator');
         if ($query->num_rows() == 1) {
             $return = $query->row_array();
             $return['permission'] = $this->Mpermission->getPermission($return['permission_id']);
             return $return;
         } else {
             return false;
-        }  
+        }
     }
 
     public function haspass($data)
@@ -92,5 +92,15 @@ class Madministrator extends CI_Model {
         $this->db->where('permission_id',$permission_id);
         $query = $this->db->get('administrator');
         return $query->row_array();
+    }
+    public function get_by_email($email)
+    {
+        $this->db->where('email',$email);
+        $query = $this->db->get('administrator');
+        if ($query->num_rows() >0) {
+            return $query->row_array();
+        } else {
+            return false;
+        }
     }
 }

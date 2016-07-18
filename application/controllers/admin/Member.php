@@ -87,7 +87,7 @@ class Member extends CI_Controller {
     }
     public function ajax_list() {
         $session = $this->session->userdata('admin');
-        $count = $this->Mmember->count_all_by_course($this->uri->segment(3));
+        $count = $this->Mmember->count_all_by_course();
         $list = $this->Mmember->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -106,7 +106,7 @@ class Member extends CI_Controller {
             $row[] = $this->formatdate->generate_date_today("d M Y", strtotime($person->create_at), "th", true);
 
             //add html for action
-            $row[] = anchor('administrator/member/' . $person->id, '<i class="icon-list icon-white"></i>', 'class="btn btn-success"');;
+            $row[] = anchor('administrator/member/' . $person->id, '<i class="icon-list icon-white"></i>', 'class="btn btn-success"');
 
             $data[] = $row;
         }

@@ -43,14 +43,22 @@
                                         </ul>
 
                                         <!-- Tab panes -->
+                                        
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="all">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <a href="<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=all" id="btn-excel" target="_blank" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Export to Excel</a><br>
+                                                        <br>
+                                                    </div>                                                    
+                                                </div>                                                
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-bordered table-hover display" id="dataTables-all" width="100%">
                                                         <thead>
                                                             <tr>
                                                                 <th> รหัสใบสมัคร </th>
                                                                 <th>ชื่อ - นามสกุล</th>
+                                                                <th>ชื่อเล่น</th>       
                                                                 <th>เบอร์โทร</th>                                                                                                                          
                                                                 <th>จำนวนผู้สมัคร</th>  
                                                                 <th>สถานะ</th>
@@ -62,44 +70,6 @@
                                                         <tbody>       
                                                            
                                                         </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="payment">
-                                                <div class="table-responsive">                                                   
-                                                    <table class="table table-striped table-bordered table-hover display" id="dataTables-payment" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th> รหัสใบสมัคร </th>
-                                                                <th>ชื่อ - นามสกุล</th>
-                                                                <th>เบอร์โทร</th>                                                                                                                          
-                                                                <th>จำนวนผู้สมัคร</th>  
-                                                                <th>สถานะ</th>
-                                                                <th>วันที่สมัคร</th> 
-                                                                <th>สมัครแล้ว</th> 
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="holders">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered table-hover display" id="dataTables-holders" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th> รหัสใบสมัคร </th>
-                                                                <th>ชื่อ - นามสกุล</th>
-                                                                <th>เบอร์โทร</th>                                                                                                                          
-                                                                <th>จำนวนผู้สมัคร</th>  
-                                                                <th>สถานะ</th>
-                                                                <th>วันที่สมัคร</th> 
-                                                                <th>สมัครแล้ว</th> 
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        
                                                     </table>
                                                 </div>
                                             </div>
@@ -127,26 +97,36 @@
 <?php $this->load->view('admin/template/javascript') ?>
         <!-- END PAGE LEVEL SCRIPTS --> 
         <script>
+            var url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all";
             $(document).ready(function () {
                 datatable()
             });
-            function datatable(data)
-            {
-                var data;
-                console.log(data);
+            function datatable()
+            {               
                 table = $('.display').DataTable({ 
                     responsive: true,
                     "processing": true, //Feature control the processing indicator.
                     "serverSide": true, //Feature control DataTables' server-side processing mode.
                     "order": [], //Initial no order.
-                    dom: 'Bfrtip',
+                    paging: true,
                     "language": {
                         "processing": "กำลังโหลด..." //add a loading image,simply putting <img src="loader.gif" /> tag.
                     },
-                    buttons: [
-                        {extend: 'excel', text: '<i class="fa fa-file-excel-o"></i> Export to Excel', className: 'btn btn-default'}
-
-                    ],
+//                    buttons: [
+//                        {   
+//                            extend: 'excel',                             
+//                            text: '<i class="fa fa-file-excel-o"></i> Export to Excel', 
+//                            className: 'btn btn-default',
+//                            exportOptions: {
+//                                    columns: ':visible'
+//                                    //rows: { selected: true }
+//                                    //rows: { selected: false }
+//                                }
+//                        },
+//                        
+//                    ],
+                    //
+                    //"info":     false,
                     "ajax": {
                         "url": "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all",
                         "type": "POST",
@@ -168,25 +148,26 @@
             }
             $('a[href="#payment"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
-                var url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=nopay";
+                $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=nopay" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=nopay";
                 table.ajax.url( url ).load();
                 table.ajax.reload(null,false); //reload datatable ajax 
             });
             $('a[href="#holders"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
-                var url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=holders";
+                $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=holders" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=holders";
                 table.ajax.url( url ).load();
                 table.ajax.reload(null,false); //reload datatable ajax 
             });
             $('a[href="#all"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
-                var url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all";
+               $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=all" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all";
                 table.ajax.url( url ).load();
                 table.ajax.reload(null,false); //reload datatable ajax 
             })
+            
         </script>
     </body>
 

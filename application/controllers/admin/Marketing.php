@@ -105,7 +105,8 @@ class Marketing extends CI_Controller {
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
-        if (empty($this->input->post('id'))) {
+        
+        if (empty($_POST['id'])) {
             if ($this->Mmarketing->entry_insert($data)) {
                 $msg = array('result' => TRUE);
             } else {
