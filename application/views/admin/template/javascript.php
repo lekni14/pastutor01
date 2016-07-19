@@ -26,7 +26,11 @@
 <script src="<?php echo base_url('js/parsley.js') ?>"></script>
 <script src="<?php echo base_url('js/parsley-th.js') ?>"></script>
 
+<script src="<?php echo base_url(); ?>assets/js/jquery-ui.min.js"></script>
 
+<script src="<?php echo base_url()?>assets/plugins/fullcalendar-1.6.2/fullcalendar/fullcalendar.min.js"></script>  
+
+        
 <script src="<?php echo base_url(); ?>assets/plugins/uniform/jquery.uniform.min.js"></script>
 <!-- PAGE LEVEL SCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/plugins/jasny/js/bootstrap-fileupload.js"></script>

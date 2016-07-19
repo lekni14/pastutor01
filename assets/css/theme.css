@@ -96,3 +96,19 @@ figcaption.ratings a:hover
     margin-left: 3px;
     margin-right: 3px;
 }
+.panel-green{
+    border-color: #00CC00;
+}
+.panel-green > .panel-heading{
+    color: #ffffff;
+    background-color: #00CC00;
+    border-color: #00CC00;
+}
+.panel-yellow{
+    border-color: #f1c40f;
+}
+.panel-yellow > .panel-heading{
+    color: #ffffff;
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+}

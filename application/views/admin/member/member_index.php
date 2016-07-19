@@ -3,7 +3,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
     <!-- BEGIN HEAD -->
-    <?php $this->load->view('admin/template/head'); ?>    
+    <?php $session = $this->session->userdata('admin'); $this->load->view('admin/template/head'); ?>    
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
     <body class="padTop53 " >
@@ -104,30 +104,6 @@
                         $('#md-error').modal('show');
                     });
             }
-//            document.getElementById("file").onchange = function() {
-//                document.getElementById("form").submit();
-//            }
-//            $(document).ready(function () {
-//                $('#dataTables-example').dataTable({
-//                    "language": {
-//                        "lengthMenu": "Display _MENU_ records per page",
-//                        "zeroRecords": "Nothing found - sorry",
-//                        "info": "หน้า _PAGE_ of _PAGES_",
-//                        "infoEmpty": "No records available",
-//                        "infoFiltered": "(filtered from _MAX_ total records)"
-//                    },
-//                    "iDisplayLength": 20,
-//                    dom: 'Bfrtip',
-//                        buttons: [
-//                            { text: '<i class="icon-upload"></i> อัพเกรดสมาชิก',className:'btn btn-success',action: function ( e, dt, node, config ) {
-//                                    $('#myInput').click();
-//                                }
-//                            },
-//                            {extend:'excel',text:'<i class="fa fa-file-excel-o"></i> Export to Excel',className: 'btn btn-default'}
-//                            
-//                        ],
-//                });
-//            });
             $(document).ready(function () {
                 //datatables
                 table = $('#dataTables-example').DataTable({ 
@@ -140,11 +116,20 @@
                         "processing": "กำลังโหลด..." //add a loading image,simply putting <img src="loader.gif" /> tag.
                     },
                     buttons: [
-                            { text: '<i class="icon-upload"></i> อัพเกรดสมาชิก',className:'btn btn-success',action: function ( e, dt, node, config ) {
+                            <?php if($session['permission_id']==1): ?>
+                            { 
+                                text: '<i class="icon-upload"></i> อัพเกรดสมาชิก',
+                                className:'btn btn-success',
+                                action: function ( e, dt, node, config ) {
                                     $('#myInput').click();
                                 }
                             },
-                            {extend:'excel',text:'<i class="fa fa-file-excel-o"></i> Export to Excel',className: 'btn btn-default'}
+                            <?php endif; ?>
+                            {
+                                extend:'excel',
+                                text:'<i class="fa fa-file-excel-o"></i> Export to Excel',
+                                className: 'btn btn-default'
+                            }
                             
                         ],             
                     "ajax": {

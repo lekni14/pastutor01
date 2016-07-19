@@ -40,6 +40,12 @@
     <link rel="stylesheet" href="<?php echo base_url('css/parsley.css'); ?>">    
     <!-- PAGE fileupload -->
     
+    
+    <!-- PAGE fullcalendar STYLES -->
+
+       <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/fullcalendar-1.6.2/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/calendar.css" />
+    <!-- END fullcalendar LEVEL  STYLES -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

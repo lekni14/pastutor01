@@ -18,14 +18,26 @@ class Administrator extends CI_Controller {
         // Construct the parent class
         parent::__construct();
         // load model
-        $this->load->model(array('Madministrator','Mmember'));
+        $this->load->model(array('Madministrator','Mmember','Mcourse'));
     }
     public function index()
     {
         //$this->load->view('admin/template/index');
 
         if($this->session->has_userdata('admin')){
-            $this->load->view('admin/template/index');
+            $location = $this->Mcourse_location->get_localtion_all();
+            $events = array();
+            foreach ($location as $key => $value) {
+                $course = $this->Mcourse->get_course_by_id($value['course_id']);
+                $events[] = array(
+                    'title'=>$course['name'].' ที่'.$value['name'],
+                    'start'=>$value['course_date'],
+                    'end'=>$value['course_end_date']
+                );
+            }
+            $data['events'] = json_encode($events);
+            //exit();
+            $this->load->view('admin/template/index',$data);
         }else{
             redirect('administrator/login');
         }
@@ -33,7 +45,7 @@ class Administrator extends CI_Controller {
     public function login()
     {
         if($this->session->has_userdata('admin')){
-            redirect('administrator/payment');
+            redirect('administrator/administrator');
         }else{
             $this->load->helper(array('form', 'url'));
             $this->load->library('form_validation');
@@ -69,13 +81,21 @@ class Administrator extends CI_Controller {
     }
     public function staff_index()
     {
-        $this->load->library('breadcrumbs');
-        if ($this->session->has_userdata('admin')) {
-            $data['admin'] = $this->Madministrator->getAdminAll();
-//            print_r($data);
-//            exit();
-            $this->breadcrumbs->staff_index();
-            $this->load->view('admin/member/staff_index',$data);
+        $this->load->library('breadcrumbs');       
+        if ($this->session->has_userdata('admin')) {            
+            $session = $this->session->userdata('admin');
+            if($session['permission_id']==1){
+                $data['admin'] = $this->Madministrator->getAdminAll();
+                $this->breadcrumbs->staff_index();
+                $this->load->view('admin/member/staff_index',$data);
+            }else{
+                echo '<body onload="myFunction()">';
+                echo '<script type="text/javascript">';
+                echo 'function myFunction() {alert("\คุณไม่มีสิทธิ์เข้าถึง หน้านี้สำหรับ/")};';
+                echo "</script>";
+                echo '</body>';
+            }
+            //redirect('administrator/login');
         } else {
             redirect('administrator/login');
         }
@@ -84,9 +104,19 @@ class Administrator extends CI_Controller {
     public function staff_create()
     {
         $this->load->library('breadcrumbs');
-        if ($this->session->has_userdata('admin')) {
-            $this->breadcrumbs->staff_create();
-            $this->load->view('admin/member/staff_create');
+        if ($this->session->has_userdata('admin')) {            
+            $session = $this->session->userdata('admin');
+            if($session['permission_id']==1){
+                $this->breadcrumbs->staff_create();
+                $this->load->view('admin/member/staff_create');
+            }else{
+                echo '<body onload="myFunction()">';
+                echo '<script type="text/javascript">';
+                echo 'function myFunction() {alert("\คุณไม่มีสิทธิ์เข้าถึง หน้านี้สำหรับ/")};';
+                echo "</script>";
+                echo '</body>';
+            }
+            //redirect('administrator/login');
         } else {
             redirect('administrator/login');
         }
@@ -167,11 +197,20 @@ class Administrator extends CI_Controller {
     }
     public function staff_edit($id)
     {
-        $this->load->library('breadcrumbs');
-        if ($this->session->has_userdata('admin')) {
-            $this->breadcrumbs->staff_edit();
+        if ($this->session->has_userdata('admin')) {            
+            $session = $this->session->userdata('admin');
+            if($session['permission_id']==1){
+                 $this->breadcrumbs->staff_edit();
             $data['admin'] = $this->Madministrator->getById($id);
             $this->load->view('admin/member/staff_edit',$data);
+            }else{
+                echo '<body onload="myFunction()">';
+                echo '<script type="text/javascript">';
+                echo 'function myFunction() {alert("\คุณไม่มีสิทธิ์เข้าถึง หน้านี้สำหรับ/")};';
+                echo "</script>";
+                echo '</body>';
+            }
+            //redirect('administrator/login');
         } else {
             redirect('administrator/login');
         }

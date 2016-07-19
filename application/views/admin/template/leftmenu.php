@@ -94,6 +94,9 @@ $session = $this->session->userdata('admin');
     </div>
     <ul id="menu" class="collapse">
         <?php if($session['permission_id']==2): ?>
+        <li class="panel  <?= $lia3 ?>">
+             <?php echo anchor('administrator/member', '<i class="fa fa-users"> </i> สมาชิก '); ?>                  
+        </li>
         <li class="panel  <?= $lia1 ?>">
             <?php echo anchor('administrator/application', '<i class="icon-file-alt"></i> ผู้สมัครคอร์ส-โครงการ '); ?>                  
         </li>

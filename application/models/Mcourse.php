@@ -13,12 +13,24 @@
  */
 class Mcourse extends CI_Model {
     
+    var $table = 'course';  
     function __construct()
     {
         // Construct the parent class
         parent::__construct();        
         // load model
         $this->load->model(array('Mstorage','Mcourse_location','Mapplication'));
+    }
+    public function count_all_by_date()
+    {
+        $this->db->where('reg_end_date >=', date('Y-m-d'));
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
+    public function count_all_by_all()
+    {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
     }
     public function insert_entry($data)
     {
@@ -112,5 +124,11 @@ class Mcourse extends CI_Model {
             $sum+=$subArray['sum_applicants'];
         }
         return $sum;
+    }
+    function get_course_by_id($id)
+    {
+        $this->db->where('id',$id);
+        $query = $this->db->get('course');
+        return $query->row_array();            
     }
 }

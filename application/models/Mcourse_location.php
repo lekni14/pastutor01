@@ -48,4 +48,9 @@ class Mcourse_location extends CI_Model {
         $this->db->delete('course_location'); 
         return $this->db->affected_rows();
     }
+    public function get_localtion_all()
+    {
+        $query = $this->db->get('course_location');
+        return $query->result_array();   
+    }
 }
