@@ -180,7 +180,7 @@ class Course extends REST_Controller {
                     'file_type' => $_FILES['images[]']['type'],
                     'filesize' => $_FILES['images[]']['size'],
                 );
-                if(!empty($name[$key]['name'])){
+                if(!empty($name[$key]['id'])){
                     $this->Mstorage->delete_storage($name[$key]['id']);
                 }
                 $this->Mstorage->insert_entry($img);                

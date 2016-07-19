@@ -14,7 +14,8 @@
             <?php $this->load->view('admin/template/navbar'); ?>
             <!-- END HEADER SECTION -->
             <!-- MENU SECTION -->
-            <?php $this->load->view('admin/template/leftmenu'); ?>            
+            <?php $this->load->view('admin/template/leftmenu'); ?>      
+            <?php $this->load->view('admin/template/phpfunction'); ?>       
             <!--END MENU SECTION -->
             <!--PAGE CONTENT -->
             <div id="content">
@@ -38,7 +39,7 @@
                                         <ul class="nav nav-tabs nav-justified" role="tablist">
                                             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">คอร์ส-โครงการ</a></li>
                                             <li role="presentation"><a href="#location" aria-controls="location" role="tab" data-toggle="tab">สถานที่</a></li>
-                                            <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">รูป</a></li>
+                                            <li role="presentation"><a href="#images" aria-controls="images" role="tab" data-toggle="tab">เอกสาร</a></li>
                                         </ul>
 
                                         <!-- Tab panes -->
@@ -47,7 +48,7 @@
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td>คอร์ส-โครงการ:</td>
+                                                            <td width="40%">คอร์ส-โครงการ:</td>
                                                             <td><?=$course['name']?></td>
                                                         </tr>
                                                         <tr>
@@ -87,7 +88,51 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div role="tabpanel" class="tab-pane" id="images">...</div>
+                                            <div role="tabpanel" class="tab-pane setup-panel" id="images">
+                                                    <div class="row">
+                                                        <div class="col-sm-7 col-sm-offset-2">
+                                                            <div class="form-horizontal">
+                                                                <table class="table">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>ภาพหน้าปก(300x180)
+    <?php $img = search($course['storage'], 'filename', '300x180');
+$id = 0;
+if ($img) {
+    $img =end($img);
+    $id = $img['id'];
+} ?>
+                                                                            </td>
+                                                                            <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
+                                                                            
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>ภาพรายละเอียด<?php $large = search($course['storage'], 'filename', 'large');
+                                                                                $id = 0;
+                                                                                if ($large) {
+                                                                                     $large =end($large);
+                                                                                    $id = $large['id'];
+                                                                                } ?></td>
+                                                                            <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
+                                                                                                                                                
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>เอกสารกำหนดการ(pdf)<?php $schedule = search($course['storage'], 'filename', 'schedule');
+                                                                                    $id = 0;
+                                                                                    if ($schedule) {
+                                                                                        $schedule =end($schedule);
+                                                                                        $id = $schedule['id'];
+                                                                                    } ?>
+                                                                            </td>
+                                                                            <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
+                                                                                                                                              
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>                                                                                                                        
+                                                            </div>                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
