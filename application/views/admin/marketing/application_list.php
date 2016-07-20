@@ -78,11 +78,11 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div role="tabpanel" class="tab-pane" id="payment">
+<!--                                            <div role="tabpanel" class="tab-pane" id="payment">
                                                 <div id="page-payment">
                                                     กำลังโหลด...
                                                 </div>
-                                            </div>                                            
+                                            </div>                                            -->
                                         </div>                                  
                                 </div>
                             </div>
@@ -108,8 +108,15 @@
         <script>
             $('a[href="#payment"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
-                $( "#page-payment" ).load( "<?=  base_url('administrator/marketing/paymet/'.$course_id) ?>");
+                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course_id)?>?name=holders";
+                table.ajax.url( url ).load();
+                reload_table()
+            })
+            $('a[href="#all"]').click(function (e) {
+                e.preventDefault()
+                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course_id)?>?name=all";
+                table.ajax.url( url ).load();
+                reload_table()
             })
             $(document).ready(function () {
                 //datatables

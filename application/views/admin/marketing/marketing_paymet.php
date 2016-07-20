@@ -12,6 +12,7 @@
         </thead>                                                  
     </table>
 </div>
+<?php $sesion = $this->session->userdata('admin'); ?>
 <script>
     $(document).ready(function () {
         //datatables
@@ -24,7 +25,7 @@
                 "processing": "กำลังโหลด..." //add a loading image,simply putting <img src="loader.gif" /> tag.
             },
             "ajax": {
-                "url": "<?php echo site_url('administrator/marketing-application-by-coures/' . $course_id) ?>?name=holders",
+                "url": "<?php echo site_url('administrator/marketing-application-by-coures/' . $course_id) ?>?name=all&martketing=<?=$sesion['id']?>",
                 "type": "POST",
             },
             //Set column definition initialisation properties.

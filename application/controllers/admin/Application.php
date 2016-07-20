@@ -39,9 +39,9 @@ class Application extends CI_Controller{
     {   $data['course_id'] = $id;
         if ($this->session->has_userdata('admin')) {
             $this->breadcrumbs->list_application_detail($id);
-//            $data['application'] = $this->Mapplication->getApplicationByCourseId($id);
+//                $data['application'] = $this->Mapplication->getApplicationByCourseId($id);
 //            $data['pay'] = $this->Mapplication->getApplicationFlowAdmin($id,array(1,8,9,10));
-//            $data['holders'] = $this->Mapplication->getApplicationFlowAdmin($id,array(3,7));
+//           $data['holders'] = $this->Mapplication->getApplicationFlowAdmin($id,array(3,7));
             if($this->permission()==1){
                 $this->load->view('admin/application/application_list', $data);
             }else{
@@ -90,7 +90,7 @@ class Application extends CI_Controller{
         echo json_encode(array('result'=>true));
     }
     public function application_print($id) {
-        $this->load->library("Pdf");
+        //$this->load->library("Pdf");
         $data['title'] = 'ใบแจ้งค่าชำระเรียน';
         $data['application'] = $this->Mapplication->getApplicatoinByID($id);
         $this->load->view('payments/payin', $data);
@@ -103,9 +103,6 @@ class Application extends CI_Controller{
         $this->load->library("Pdf");
         $data['title'] = 'ใบลงทะเบียนหน้างาน';
         $data['application'] = $this->Mapplication->getApplicatoinByID($id);
-//        echo '<pre>';
-//        print_r($data);
-//        exit();
         $this->load->view('application/pdf_application', $data);
     }
     public function ajax_list() {
@@ -132,7 +129,7 @@ class Application extends CI_Controller{
             $row[] = $this->formatdate->countday($application->applicant_date).' วันที่แล้ว';
 
             //add html for action
-            $row[] = anchor('administrator/application/detail/' . $application->course_id . '/' . $application->id, '<i class="icon-list icon-white"></i>', 'class="btn btn-success"');
+            $row[] = anchor('administrator/application/detail/' . $application->course_id . '/' . $application->application_id, '<i class="icon-list icon-white"></i>', 'class="btn btn-success"');
 
             $data[] = $row;
         }

@@ -36,7 +36,7 @@
                                 <div class="body">
                                     <div class="row">
                                         <div class="col-md-12 text-left">
-                                            <?php echo anchor('administrator/payin/'.$application['payments']['id'],'<i class="fa fa-print fa-2x fa-lg"></i> <span>พิมพ์ใบชำระเงิน</span>','class="btn btn-success" target="_blank"') ?>
+                                            <?php echo anchor('administrator/payin/'.$application['id'],'<i class="fa fa-print fa-2x fa-lg"></i> <span>พิมพ์ใบชำระเงิน</span>','class="btn btn-success" target="_blank"') ?>
                                             <?php echo anchor('administrator/application_print/'.$application['id'],'<i class="fa fa-print fa-2x fa-lg"></i> <span>พิมพ์ใบลงทะเบียน</span>','class="btn btn-warning" target="_blank"') ?>
                                         </div><br>
                                     </div>

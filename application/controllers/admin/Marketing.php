@@ -18,7 +18,7 @@ class Marketing extends CI_Controller {
         parent::__construct();
         // load model        
         $this->load->library(array('breadcrumbs', 'Formatdate'));
-        $this->load->model(array('Mcourse', 'Mmarketing','Madministrator'));        
+        $this->load->model(array('Mcourse', 'Mmarketing','Madministrator','Mapplication'));        
     }    
     public function marketing_index() {
         if($this->session->has_userdata('admin')) {
@@ -131,6 +131,42 @@ class Marketing extends CI_Controller {
         echo json_encode($msg);
     }
     public function ajax_payment_list() {
+        // การตลาด ใบสมัคร
+       
+        $session = $this->session->userdata('admin');
+        $_POST['admin_id'] = $session['id'];
+        $_POST['course_id'] = $this->uri->segment(3);
+        $count = $this->Mapplication->count_all_by_course($this->uri->segment(3));
+        $list = $this->Mapplication->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $person) {
+            $no++;
+            $row = array();
+            $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($person->application_flow_id);
+            $market = $this->Madministrator->getById($person->admin_id);
+            $row[] = $person->identification;
+            $row[] = $person->first_name . ' ' . $person->last_name;
+            $row[] = $person->contact_no;
+            $row[] = $flow_name['name']; ;
+            $row[] = $this->formatdate->DatetimeThai("d M Y", strtotime($person->applicant_date), "th", true);
+
+            //add html for action
+            $row[] = $row[] = ($market)?$market['first_name'] . ' ' . $market['last_name']:'ผลงานระบบ';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => count($list),
+            "recordsFiltered" => $count,
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+    public function application_ajax_list() {
         $session = $this->session->userdata('admin');
         $_POST['admin_id'] = $session['id'];
         $_POST['course_id'] = $this->uri->segment(3);
@@ -162,40 +198,39 @@ class Marketing extends CI_Controller {
         );
         //output to json format
         echo json_encode($output);
-    }
-    public function application_ajax_list() {
-    
-        $_POST['course_id'] = $this->uri->segment(3);
-        $count = $this->Mapplication->count_all_by_course($this->uri->segment(3));
-        $list = $this->Mapplication->get_datatables();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list as $key=> $application) {
-            $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
-            $market = $this->Madministrator->getById($application->admin_id);
-            $no++;
-            $row = array();
-            //$row[] = ++$key;
-            $row[] = $application->app_code;
-            $row[] = $application->first_name . ' ' . $application->last_name;
-            $row[] = $application->contact_no;
-            $row[] = $flow_name['name'];            
-            $row[] = $this->formatdate->countday($application->applicant_date).' วันที่แล้ว';
-
-            //add html for action
-            $row[] = ($market)?$market['first_name'] . ' ' . $market['last_name']:'ผลงานระบบ';
-
-            $data[] = $row;
-        }
-
-        $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => count($list),
-            "recordsFiltered" => $count,
-            "data" => $data,
-        );
-        //output to json format
-        echo json_encode($output);
+        
+        
+//        $_POST['course_id'] = $this->uri->segment(3);
+//        $count = $this->Mapplication->count_all_by_course($this->uri->segment(3));
+//        $list = $this->Mapplication->get_datatables();
+//        $data = array();
+//        $no = $_POST['start'];
+//        foreach ($list as $key=> $application) {
+//            $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
+//            $market = $this->Madministrator->getById($application->admin_id);
+//            $no++;
+//            $row = array();
+//            //$row[] = ++$key;
+//            $row[] = $application->app_code;
+//            $row[] = $application->first_name . ' ' . $application->last_name;
+//            $row[] = $application->contact_no;
+//            $row[] = $flow_name['name'];            
+//            $row[] = $this->formatdate->countday($application->applicant_date).' วันที่แล้ว';
+//
+//            //add html for action
+//            $row[] = ($market)?$market['first_name'] . ' ' . $market['last_name']:'ผลงานระบบ';
+//
+//            $data[] = $row;
+//        }
+//
+//        $output = array(
+//            "draw" => $_POST['draw'],
+//            "recordsTotal" => count($list),
+//            "recordsFiltered" => $count,
+//            "data" => $data,
+//        );
+//        //output to json format
+//        echo json_encode($output);
     }
 
 }

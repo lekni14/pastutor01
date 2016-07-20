@@ -59,8 +59,11 @@ class Mmarketing extends CI_Model {
     }
     public function count_all_by_course()
     {
+        $sesion = $this->session->userdata('admin');
         $this->db->from($this->table);
-        $this->db->where('marketing.admin_id', $_POST['admin_id']);
+        if($sesion['permission_id']==2){
+            $this->db->where('admin_id',$sesion['id']);
+        }
         $this->db->where('marketing.course_id', $_POST['course_id']);
         return $this->db->count_all_results();
     }   
@@ -102,9 +105,12 @@ class Mmarketing extends CI_Model {
  
     function get_datatables()
     {
+        $sesion = $this->session->userdata('admin');
         $this->_get_datatables_query();
-        if($_POST['length'] != -2)
-        $this->db->where('marketing.admin_id', $_POST['admin_id']);
+        if($_POST['length'] != -1)
+        if($sesion['permission_id']==2){
+            $this->db->where('admin_id',$sesion['id']);
+        }
         $this->db->where('marketing.course_id', $_POST['course_id']);
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();

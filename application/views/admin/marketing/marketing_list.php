@@ -108,12 +108,13 @@
         <script>
             $('a[href="#payment"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
+                //$(this).tab('show')
                 $( "#page-payment" ).load( "<?=  base_url('administrator/marketing/paymet/'.$course_id) ?>");
             })
             $('a[href="#all"]').click(function (e) {
                 e.preventDefault()
-                $(this).tab('show')
+                table.ajax.url( "<?php echo site_url('administrator/marketing-by-coures/'.$course_id)?>" ).load();
+                //$(this).tab('show')
                 reload_table()
             })
             $(document).ready(function () {
@@ -160,7 +161,7 @@
                 });
             });
             function reload_table()
-            {
+            {                
                 table.ajax.reload(null,false); //reload datatable ajax 
             }
             function add_person()

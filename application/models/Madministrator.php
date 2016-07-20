@@ -103,4 +103,11 @@ class Madministrator extends CI_Model {
             return false;
         }
     }
+    function get_marketing_acive()
+    {
+        $this->db->where('active',1);
+        $this->db->where('permission_id',2);
+        $query = $this->db->get('administrator');
+        return $query->result_array();
+    }
 }

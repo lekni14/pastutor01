@@ -45,14 +45,21 @@
                                         <!-- Tab panes -->
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="all">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <a href="<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=all" id="btn-excel" target="_blank" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Export to Excel</a><br>
+                                                        <br>
+                                                    </div>                                                    
+                                                </div>           
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-bordered table-hover display" id="dataTables-all" width="100%">
                                                         <thead>
                                                             <tr>
-                                                                <th class="center">#</th>
                                                                 <th> รหัสใบสมัคร </th>
                                                                 <th>ชื่อ - นามสกุล</th>
-                                                                <th>เบอร์โทร</th>        
+                                                                <th>ชื่อเล่น</th>       
+                                                                <th>เบอร์โทร</th>                                                                                                                          
+                                                                <th>จำนวนผู้สมัคร</th>  
                                                                 <th>สถานะ</th>
                                                                 <th>วันที่สมัคร</th> 
                                                                 <th>สมัครแล้ว</th> 
@@ -60,99 +67,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>       
-                                                            <?php  if ($application): foreach ($application as $index => $value): ?>
-                                                                    <tr>
-                                                                        <td><?= ++$index ?></td>
-                                                                        <td><?= $value['app_code'] ?></td>
-                                                                        <td><?= ($value['member']) ? $value['member']['first_name'] . '  ' . $value['member']['last_name'] : '' ?></td>
-                                                                        <td><?= ($value['member']) ? $value['member']['contact_no'] : '' ?></td>                                                                       
-                                                                        <td><?= ($value['flow']) ? $value['flow']['name'] : '' ?></td>   
-                                                                        <td><?= DateThai($value['applicant_date']) ?></td>
-                                                                        <td><?= countday($value['applicant_date']); ?> วัน</td>
-                                                                        <td>
-                                                                            <?php echo anchor('administrator/application/detail/' . $value['course']['id'] . '/' . $value['id'], '<i class="icon-list icon-white"></i>', 'class="btn btn-success"'); ?>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php
-                                                                endforeach;
-                                                            endif;
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="payment">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered table-hover display" id="dataTables-payment" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="center">#</th>
-                                                                <th> รหัสใบสมัคร </th>
-                                                                <th>ชื่อ - นามสกุล</th>
-                                                                <th>เบอร์โทร</th>                                                    
-                                                                <th> คอร์ส-โครงการ </th>
-                                                                <th>วันที่สมัคร</th>                                                    
-                                                                <th>จำนวนผู้สมัคร</th>  
-                                                                <th>สถานะ</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>       
-                                                                <?php if ($pay): foreach ($pay as $index => $value): ?>
-                                                                    <tr>
-                                                                        <td><?= ++$index ?></td>
-                                                                        <td><?= $value['app_code'] ?></td>
-                                                                        <td><?= ($value['member']) ? $value['member']['first_name'] . '  ' . $value['member']['last_name'] : '' ?></td>
-                                                                        <td><?= ($value['member']) ? $value['member']['contact_no'] : '' ?></td>
-                                                                        <td><?= ($value['course']) ? $value['course']['name'] : '' ?></td>
-                                                                        <td><?= DateThai($value['applicant_date']) ?></td>
-                                                                        <td><?= $value['sum_applicants'] ?></td>
-                                                                        <td><?= ($value['flow']) ? $value['flow']['name'] : '' ?></td>   
-                                                                        <td>
-                                                                            <?php echo anchor('administrator/application/detail/' . $value['course']['id'] . '/' . $value['id'], '<i class="icon-list icon-white"></i>', 'class="btn btn-success"'); ?>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php
-                                                                endforeach;
-                                                            endif;
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="holders">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered table-hover display" id="dataTables-holders" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="center">#</th>
-                                                                <th> รหัสใบสมัคร </th>
-                                                                <th>ชื่อ - นามสกุล</th>
-                                                                <th>เบอร์โทร</th>                                                    
-                                                                <th> คอร์ส-โครงการ </th>
-                                                                <th>วันที่สมัคร</th>                                                    
-                                                                <th>จำนวนผู้สมัคร</th>  
-                                                                <th>สถานะ</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>       
-                                                                <?php if ($holders): foreach ($holders as $index => $holder): ?>
-                                                                    <tr>
-                                                                        <td><?= ++$index ?></td>
-                                                                        <td><?= $holder['app_code'] ?></td>
-                                                                        <td><?= ($holder['member']) ? $holder['member']['first_name'] . '  ' . $holder['member']['last_name'] : '' ?></td>
-                                                                        <td><?= ($holder['member']) ? $holder['member']['contact_no'] : '' ?></td>
-                                                                        <td><?= ($holder['course']) ? $holder['course']['name'] : '' ?></td>
-                                                                        <td><?= DateThai($holder['applicant_date']) ?></td>
-                                                                        <td><?= $holder['sum_applicants'] ?></td>
-                                                                        <td><?= ($holder['flow']) ? $holder['flow']['name'] : '' ?></td>   
-                                                                        <td>
-                                                                    <?php echo anchor('administrator/application/detail/' . $holder['course']['id'] . '/' . $holder['id'], '<i class="icon-list icon-white"></i>', 'class="btn btn-success"'); ?>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php endforeach; endif;
-                                                            ?>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -181,56 +96,77 @@
 <?php $this->load->view('admin/template/javascript') ?>
         <!-- END PAGE LEVEL SCRIPTS --> 
         <script>
+            var url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all";
             $(document).ready(function () {
-                $('.display').dataTable({
-                    responsive: true,
-                    "language": {
-                        "lengthMenu": "Display _MENU_ records per page",
-                        "zeroRecords": "ยังไม่มีข้อมูล",
-                        "info": "หน้า _PAGE_ of _PAGES_",
-                        "infoEmpty": "No records available",
-                        "infoFiltered": "(filtered from _MAX_ total records)"
-                    },
-                    "iDisplayLength": 20,
-                    dom: 'Bfrtip',
-                    buttons: [
-                        {extend: 'excel', text: '<i class="fa fa-file-excel-o"></i> Export to Excel', className: 'btn btn-default'}
-
-                    ],
-                });
-//                $('#dataTables-payment').dataTable({
-//                    responsive: true,
-//                    "language": {
-//                        "lengthMenu": "Display _MENU_ records per page",
-//                        "zeroRecords": "ยังไม่มีข้อมูล",
-//                        "info": "หน้า _PAGE_ of _PAGES_",
-//                        "infoEmpty": "No records available",
-//                        "infoFiltered": "(filtered from _MAX_ total records)"
-//                    },
-//                    "iDisplayLength": 20,
-//                    dom: 'Bfrtip',
-//                    buttons: [
-//                        {extend: 'excel', text: '<i class="fa fa-file-excel-o"></i> Export to Excel', className: 'btn btn-default'}
-//
-//                    ],
-//                });
-//                $('#dataTables-holders').dataTable({
-//                    responsive: true,
-////                    "language": {
-////                        "lengthMenu": "Display _MENU_ records per page",
-////                        "zeroRecords": "ยังไม่มีข้อมูล",
-////                        "info": "หน้า _PAGE_ of _PAGES_",
-////                        "infoEmpty": "No records available",
-////                        "infoFiltered": "(filtered from _MAX_ total records)"
-////                    },
-////                    "iDisplayLength": 20,
-////                    dom: 'Bfrtip',
-////                    buttons: [
-////                        {extend: 'excel', text: '<i class="fa fa-file-excel-o"></i> Export to Excel', className: 'btn btn-default'}
-////
-////                    ],
-//                });
+                datatable()
             });
+            function datatable()
+            {               
+                table = $('.display').DataTable({ 
+                    responsive: true,
+                    "processing": true, //Feature control the processing indicator.
+                    "serverSide": true, //Feature control DataTables' server-side processing mode.
+                    "order": [], //Initial no order.
+                    paging: true,
+                    "language": {
+                        "processing": "กำลังโหลด..." //add a loading image,simply putting <img src="loader.gif" /> tag.
+                    },
+//                    buttons: [
+//                        {   
+//                            extend: 'excel',                             
+//                            text: '<i class="fa fa-file-excel-o"></i> Export to Excel', 
+//                            className: 'btn btn-default',
+//                            exportOptions: {
+//                                    columns: ':visible'
+//                                    //rows: { selected: true }
+//                                    //rows: { selected: false }
+//                                }
+//                        },
+//                        
+//                    ],
+                    //
+                    //"info":     false,
+                    "ajax": {
+                        "url": "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all",
+                        "type": "POST",
+                    },
+
+                    //Set column definition initialisation properties.
+                    "columnDefs": [
+                        { 
+                            "targets": [ -1 ], //last column
+                            "orderable": true, //set not orderable
+                        },
+                    ],                        
+                    "iDisplayLength": 20,                   
+                });
+            }
+            function reload_table()
+            {                
+                table.ajax.reload(null,false); //reload datatable ajax 
+            }
+            $('a[href="#payment"]').click(function (e) {
+                e.preventDefault()
+                $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=nopay" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=nopay";
+                table.ajax.url( url ).load();
+                table.ajax.reload(null,false); //reload datatable ajax 
+            });
+            $('a[href="#holders"]').click(function (e) {
+                e.preventDefault()
+                $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=holders" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=holders";
+                table.ajax.url( url ).load();
+                table.ajax.reload(null,false); //reload datatable ajax 
+            });
+            $('a[href="#all"]').click(function (e) {
+                e.preventDefault()
+               $("#btn-excel").attr( "href","<?php echo site_url('admin/Application/export_excel/'.$course_id)?>?name=all" );
+                url = "<?php echo site_url('administrator/application-by-coures/'.$course_id)?>?name=all";
+                table.ajax.url( url ).load();
+                table.ajax.reload(null,false); //reload datatable ajax 
+            })
+            
         </script>
 
 

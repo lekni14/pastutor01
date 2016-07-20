@@ -77,6 +77,7 @@ $route['admin/forget_password'] = 'admin/Administrator/forget_password';
 $route['administrator/login'] = 'admin/Administrator/login';
 $route['administrator/payment'] = 'admin/Payment/index';
 $route['administrator/no-payment'] = 'admin/Payment/NOPayment';
+$route['administrator/ajax_unpaid_list'] = 'admin/Payment/ajax_unpaid_list';
 $route['administrator/payment-detail/(:num)'] = 'admin/Payment/detail/$1';
 $route['administrator/course'] = 'admin/Course';
 $route['administrator/course/(:num)'] = 'admin/Course/detail/$1';
@@ -116,7 +117,8 @@ $route['administrator/marketing/dataPost']['post'] = 'admin/Marketing/dataPost';
 $route['administrator/marketing/ajax_edit/(:num)'] = 'admin/Marketing/ajax_edit/$1';
 $route['administrator/marketing/delete']['post'] = 'admin/Marketing/delete';
 $route['administrator/marketing-by-coures/(:num)'] = 'admin/Marketing/ajax_list/id/$1';
-$route['administrator/marketing-application-by-coures/(:num)'] = 'admin/Marketing/application_ajax_list/id/$1';
+//$route['administrator/marketing-by-coures/(:num)'] = 'admin/Marketing/application_ajax_list/id/$1';
+$route['administrator/marketing-application-by-coures/(:num)'] = 'admin/Marketing/ajax_payment_list/id/$1';//query application where marketing
 
 /*api  */
 $route['api/login'] = 'api/Member/login';

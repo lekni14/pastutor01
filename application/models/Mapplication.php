@@ -26,9 +26,8 @@ class Mapplication extends CI_Model {
     public function count_all_by_course()
     {        
         $fiter = array();
-        $sesion = $this->session->userdata('admin');
-        if($sesion['permission_id']==2){
-            $this->db->where('admin_id',$sesion['id']);
+        if( !empty($_GET['martketing'])){
+            $this->db->where('admin_id',$_GET['martketing']);
         }
         if($_GET['name']=='nopay'){
             $where = 'where_in';
@@ -99,13 +98,15 @@ class Mapplication extends CI_Model {
             $where = 'where_not_in';
             $fiter = array('0');
         }
+        if( !empty($_GET['martketing'])){
+            $this->db->where('admin_id',$_GET['martketing']);
+        }
         $this->_get_datatables_query();
         $sesion = $this->session->userdata('admin');
-        if($sesion['permission_id']==2){
-            $this->db->where('admin_id',$sesion['id']);
-        }
-        if($_POST['length'] != -1)
-            
+//        if($sesion['permission_id']==2){
+//            $this->db->where('admin_id',$sesion['id']);
+//        }
+        if($_POST['length'] != -1)            
         $this->db->$where('application_flow_id',$fiter);
         $this->db->where('applicantion.course_id', $_POST['course_id']);
         $this->db->limit($_POST['length'], $_POST['start']);
@@ -338,6 +339,16 @@ class Mapplication extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->row()->member_id;
         }else{
+            return FALSE;
+        }
+    }
+    public function get_aplicatoin_by_id($id) {
+        $this->db->where('id', $id);
+        $query = $this->db->get('applicantion');
+        if ($query->num_rows() > 0) {
+            $return = $query->row_array();
+            return $return;
+        } else {
             return FALSE;
         }
     }

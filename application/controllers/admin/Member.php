@@ -23,9 +23,9 @@ class Member extends CI_Controller {
 
     public function member_index() {
         if ($this->session->has_userdata('admin')) {
-            $data['member'] = $this->Mmember->getMemberAll();
+            //$data['member'] = $this->Mmember->getMemberAll();
             $this->breadcrumbs->index_member();
-            $this->load->view('admin/member/member_index', $data);
+            $this->load->view('admin/member/member_index');
         } else {
             redirect('administrator/login');
         }
