@@ -13,6 +13,13 @@
  */
 class Mcourse_location extends CI_Model {
     
+    function __construct()
+    {
+        // Construct the parent class
+        parent::__construct();        
+        // load model
+        $this->load->model(array('Mcourse'));
+    }
     public function insert_entry($data)
     {
         $this->db->insert('course_location', $data);
@@ -40,7 +47,10 @@ class Mcourse_location extends CI_Model {
     {
         $this->db->where('id',$id);
         $query = $this->db->get('course_location');
-        return $query->row_array();   
+        
+        $return = $query->row_array();   
+        $return['course'] = $this->Mcourse->getAdminCourseByID($return['course_id']); 
+        return $return;
     }
     public function delete_location($id)
     {

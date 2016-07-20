@@ -74,7 +74,12 @@ class Breadcrumbs extends Breadcrumbs_libraries
     public function marketing_index()
     {
         $this->unshift('การตลาด', '/');
-        $this->push('ผู้สมัครคอร์ส-โครงการ', '/administrator/application');
+        $this->push('ผู้สมัครคอร์ส-โครงการ', '/administrator/marketing');
+    }
+    public function list_marketing_detail($id)
+    {
+        $this->marketing_index();
+        $this->push('รายการผู้สมัคร', '/administrator/application/detail/'.$id);
     }
 }
 ?>

@@ -41,7 +41,7 @@ class Mapplication extends CI_Model {
         }
         $this->db->from($this->table);
         $this->db->$where('application_flow_id',$fiter);
-        $this->db->where('applicantion.course_id', $_POST['course_id']);
+        $this->db->where('applicantion.course_location_id', $_POST['course_location_id']);
         return $this->db->count_all_results();
     }
     private function _get_datatables_query()
@@ -108,7 +108,7 @@ class Mapplication extends CI_Model {
 //        }
         if($_POST['length'] != -1)            
         $this->db->$where('application_flow_id',$fiter);
-        $this->db->where('applicantion.course_id', $_POST['course_id']);
+        $this->db->where('applicantion.course_location_id', $_POST['course_location_id']);
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();

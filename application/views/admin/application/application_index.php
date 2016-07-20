@@ -48,18 +48,17 @@
                                             </thead>
                                             <tbody> 
                                                 <?php $row=0; if($course): foreach ($course as $key =>$value): ?>
-                                                <?php if($course): foreach ($value['location'] as $key =>$value2): ?>
                                                 <tr>
                                                     <td><?=++$row?></td>
+                                                    <td><?=$value['course']['name']?></td>
                                                     <td><?=$value['name']?></td>
-                                                    <td><?=$value2['name']?></td>
-                                                    <td><?=  DateThai($value2['course_date'])?></td>
+                                                    <td><?=  DateThai($value['course_date'])?></td>
                                                     <td><?=$value['sum_applicants']?></td>
                                                     <td>
                                                         <?php echo anchor('administrator/application/detail/'.$value['id'],'<i class="icon-list icon-white"></i>','class="btn btn-success"'); ?>
                                                     </td>
                                                 </tr>
-                                                <?php endforeach; endif; endforeach; endif; ?>
+                                                <?php endforeach; endif; ?>
                                             </tbody>
                                         </table>
                                     </div>

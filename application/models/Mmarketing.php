@@ -31,7 +31,7 @@ class Mmarketing extends CI_Model {
     public function get__by_identification($id,$course_id)
     {
         $this->db->from($this->table);
-        $this->db->where('course_id',$course_id);
+        $this->db->where('course_location_id',$course_id);
         $this->db->where('identification',$id);
         $query = $this->db->get();
         if($query->num_rows() > 0){
@@ -64,7 +64,7 @@ class Mmarketing extends CI_Model {
         if($sesion['permission_id']==2){
             $this->db->where('admin_id',$sesion['id']);
         }
-        $this->db->where('marketing.course_id', $_POST['course_id']);
+        $this->db->where('marketing.course_location_id', $_POST['course_location_id']);
         return $this->db->count_all_results();
     }   
     private function _get_datatables_query()
@@ -111,7 +111,7 @@ class Mmarketing extends CI_Model {
         if($sesion['permission_id']==2){
             $this->db->where('admin_id',$sesion['id']);
         }
-        $this->db->where('marketing.course_id', $_POST['course_id']);
+        $this->db->where('marketing.course_location_id', $_POST['course_location_id']);
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();

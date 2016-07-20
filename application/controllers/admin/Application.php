@@ -106,7 +106,7 @@ class Application extends CI_Controller{
         $this->load->view('application/pdf_application', $data);
     }
     public function ajax_list() {
-        $_POST['course_id'] = $this->uri->segment(3);
+        $_POST['course_location_id'] = $this->uri->segment(3);
         $count = $this->Mapplication->count_all_by_course($this->uri->segment(3));
         if(!empty($_GET['export'])){
             $_POST['length'] = $count;
@@ -145,13 +145,13 @@ class Application extends CI_Controller{
     }
     function export_excel()
     {
-        $_POST['course_id'] = $this->uri->segment(4);
+        $_POST['course_location_id'] = $this->uri->segment(4);
         $count = $this->Mapplication->count_all_by_course($_POST['course_id']);
         $_POST['search']['value'] = '';
         $_POST['start']=0;
         $_POST['length']=$count;        
         $this->load->library('excel');
-        $heading=array('No','รหัสใบสมัคร','ชื่อนามสกุล','ชื่อเล่น','เบอร์โทร','จำนวนผู้สมัคร','วันที่สมัคร','สถานนะ');
+        $heading=array('No','รหัสใบสมัคร','ชื่อ - นามสกุล','ชื่อเล่น','เบอร์โทร','คอร์ส-โครงการ','จำนวนผู้สมัคร','วันที่สมัคร','สถานนะ');
         $objPHPExcel = new PHPExcel();
         $objPHPExcel->getActiveSheet()->setTitle('test');
         $rowNumberH = 1;
@@ -165,15 +165,17 @@ class Application extends CI_Controller{
         $no = 1;
         foreach($list as $application){
             $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
+            $course = $this->Mcourse->getCourseByID($_POST['course_id']);
             //$numnil = (float) str_replace(',','.',$n->nilai);
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$application->app_code);
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,$application->first_name . ' ' . $application->last_name);
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$application->nickname);
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$application->contact_no,PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            $objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row,$this->Mapplicants->count_all_by_course($application->application_id),PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row,$this->formatdate->generate_date_today("d M Y H:i", strtotime($application->applicant_date), "th", true));
-            $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,$flow_name['name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,$course['name']);
+            $objPHPExcel->getActiveSheet()->setCellValueExplicit('G'.$row,$this->Mapplicants->count_all_by_course($application->application_id),PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,$this->formatdate->generate_date_today("d M Y H:i", strtotime($application->applicant_date), "th", true));
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.$row,$flow_name['name']);
             $row++;
             $no++;
         }

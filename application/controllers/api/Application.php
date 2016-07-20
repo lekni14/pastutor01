@@ -44,7 +44,7 @@ class Application extends REST_Controller {
         if ($this->post('id')) {
         } else {
             $member = $this->session->userdata('login');
-            $admin = $this->Mmarketing->get__by_identification($member['identification'],$this->post('course_id'));
+            $admin = $this->Mmarketing->get__by_identification($member['identification'],$this->post('course_location_id'));
             $app = array(
                 'app_code' => $this->generate_code($this->post('course_id')),
                 'course_location_id' => $this->post('course_location_id'),

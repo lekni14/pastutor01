@@ -39,18 +39,16 @@
                                             <table class="table table-bordered">
                                                 <tr>
                                                     <th>คอร์ส-โครงการ</th>
-                                                    <td><?=$course['name']?></td>
+                                                    <td><?=$course['course']['name']?></td>
                                                 </tr>
-                                                <?php foreach ($course['location'] as $value): ?>
                                                 <tr>
                                                     <th>สถานที่</th>
-                                                    <td><?=($course['location'])?$value['name']:''?></td>
+                                                    <td><?=$course['name']?></td>
                                                 </tr>
                                                 <tr>
                                                     <th>วันที่</th>
-                                                    <td><?=($course['location'])?$value['course_date'].' - '.$value['course_end_date']:''?></td>
+                                                    <td><?=$course['course_date'].' - '.$course['course_end_date']?></td>
                                                 </tr>
-                                                <?php endforeach;?>
                                             </table>
                                         </div>
                                     </div>
@@ -108,13 +106,13 @@
         <script>
             $('a[href="#payment"]').click(function (e) {
                 e.preventDefault()
-                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course_id)?>?name=holders";
+                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course['id'])?>?name=holders";
                 table.ajax.url( url ).load();
                 reload_table()
             })
             $('a[href="#all"]').click(function (e) {
                 e.preventDefault()
-                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course_id)?>?name=all";
+                 url = "<?php echo site_url('administrator/marketing-application-by-coures/'.$course['id'])?>?name=all";
                 table.ajax.url( url ).load();
                 reload_table()
             })
@@ -129,7 +127,7 @@
                         "processing": "กำลังโหลด..." //add a loading image,simply putting <img src="loader.gif" /> tag.
                     },                   
                     "ajax": {
-                        "url": "<?php echo site_url('administrator/marketing-application-by-coures/'.$course_id)?>?name=all",
+                        "url": "<?php echo site_url('administrator/marketing-application-by-coures/'.$course['id'])?>?name=all",
                         "type": "POST",
                     },
 

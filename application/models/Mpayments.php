@@ -20,7 +20,7 @@ class Mpayments extends CI_Model {
     }
     var $table = 'payments';
     var $column_order = array(null,'applicantion.app_code',null,null,null,null,null,null); //set column field database for datatable orderable
-    var $column_search = array('applicantion.app_code','member.first_name','admin.first_name'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $column_search = array('applicantion.app_code','member.first_name','member.last_name','member.identification'); //set column field database for datatable searchable just firstname , lastname , address are searchable
     var $order = array('payments.id' => 'desc'); // default order 
     public function count_all()
     {        

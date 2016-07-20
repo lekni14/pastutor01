@@ -30,11 +30,11 @@ class Marketing extends CI_Controller {
         }
     }
     public function marketing_list($id) {
-        $data['course_id'] = $id;
+        //$data['course_id'] = $id;
         if ($this->session->has_userdata('admin')) {
             $sesion = $this->session->userdata('admin');
-            $this->breadcrumbs->list_application_detail($id);
-            $data['course'] = $this->Mcourse->getCourseByID($id);
+            $this->breadcrumbs->list_marketing_detail($id);
+            $data['course'] = $this->Mcourse_location->getLocationByID($id);
             if($sesion['permission_id']==1){
                 $this->load->view('admin/marketing/application_list', $data);
             }else{
@@ -46,7 +46,7 @@ class Marketing extends CI_Controller {
     }
     public function marketing_paymet($id)
     {
-        $data['course_id'] = $id;
+        $data['course_location_id'] = $id;
         $session = $this->session->userdata('admin');
         if ($this->session->has_userdata('admin')) {
              $this->load->view('admin/marketing/marketing_paymet',$data);
@@ -57,7 +57,7 @@ class Marketing extends CI_Controller {
     public function ajax_list() {
         $session = $this->session->userdata('admin');
         $_POST['admin_id'] = $session['id'];
-        $_POST['course_id'] = $this->uri->segment(3);
+        $_POST['course_location_id'] = $this->uri->segment(3);
         $count = $this->Mmarketing->count_all_by_course($this->uri->segment(3));
         $list = $this->Mmarketing->get_datatables();
         $data = array();
@@ -135,7 +135,7 @@ class Marketing extends CI_Controller {
        
         $session = $this->session->userdata('admin');
         $_POST['admin_id'] = $session['id'];
-        $_POST['course_id'] = $this->uri->segment(3);
+        $_POST['course_location_id'] = $this->uri->segment(3);
         $count = $this->Mapplication->count_all_by_course($this->uri->segment(3));
         $list = $this->Mapplication->get_datatables();
         $data = array();

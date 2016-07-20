@@ -39,18 +39,16 @@
                                             <table class="table table-bordered">
                                                 <tr>
                                                     <th>คอร์ส-โครงการ</th>
-                                                    <td><?=$course['name']?></td>
+                                                    <td><?=$course['course']['name']?></td>
                                                 </tr>
-                                                <?php foreach ($course['location'] as $value): ?>
                                                 <tr>
                                                     <th>สถานที่</th>
-                                                    <td><?=($course['location'])?$value['name']:''?></td>
+                                                    <td><?=$course['name']?></td>
                                                 </tr>
                                                 <tr>
                                                     <th>วันที่</th>
-                                                    <td><?=($course['location'])?$value['course_date'].' - '.$value['course_end_date']:''?></td>
+                                                    <td><?=$course['course_date'].' - '.$course['course_end_date']?></td>
                                                 </tr>
-                                                <?php endforeach;?>
                                             </table>
                                         </div>
                                     </div>
@@ -109,11 +107,11 @@
             $('a[href="#payment"]').click(function (e) {
                 e.preventDefault()
                 //$(this).tab('show')
-                $( "#page-payment" ).load( "<?=  base_url('administrator/marketing/paymet/'.$course_id) ?>");
+                $( "#page-payment" ).load( "<?=  base_url('administrator/marketing/paymet/'.$course['id']) ?>");
             })
             $('a[href="#all"]').click(function (e) {
                 e.preventDefault()
-                table.ajax.url( "<?php echo site_url('administrator/marketing-by-coures/'.$course_id)?>" ).load();
+                table.ajax.url( "<?php echo site_url('administrator/marketing-by-coures/'.$course['id'])?>" ).load();
                 //$(this).tab('show')
                 reload_table()
             })
@@ -146,7 +144,7 @@
                         { "width": "20%" },
                       ],
                     "ajax": {
-                        "url": "<?php echo site_url('administrator/marketing-by-coures/'.$course_id)?>",
+                        "url": "<?php echo site_url('administrator/marketing-by-coures/'.$course['id'])?>",
                         "type": "POST",
                     },
 

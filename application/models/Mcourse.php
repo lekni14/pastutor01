@@ -99,12 +99,12 @@ class Mcourse extends CI_Model {
     public function getAdminCourseAll()
     {
         $this->db->order_by('id','DESC');
-        $query = $this->db->get('course'); 
+        $query = $this->db->get('course_location'); 
         if ($query->num_rows() > 0) {
             $return = $query->result_array();
             foreach ($query->result_array() as $key => $value) {
                 $return[$key]['application'] = $this->Mapplication->getCountApplicationByCourseId($value['id']);                  
-                $return[$key]['location'] = $this->Mcourse_location->getLocationByCourseID($value['id']);            
+                $return[$key]['course'] = $this->getAdminCourseByID($value['course_id']);            
                 if(!empty($return[$key]['application'])){
                     $return[$key]['sum_applicants'] = $this->sum_applicants($return[$key]['application'],'sum_applicants');
                 }else{
