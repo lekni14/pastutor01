@@ -42,6 +42,7 @@
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
+                                                                <input type="hidden" value="0" name="active" />
                                                                 <input class="uniform" type="checkbox" value="1" name="active" /> active
                                                             </label>
                                                         </div>
@@ -62,7 +63,7 @@
                                                 <div class="form-group">
                                                     <label for="email" class="col-sm-4 control-label">อีเมล์</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" name="email" data-parsley-required="true">
+                                                        <input type="email" class="form-control" name="email" data-parsley-required="true">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -80,7 +81,9 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <button type="button" id="btn-save-staff" class="btn btn-primary btn btn-primary col-sm-offset-4 col-sm-3">บันทึก</button>                                          
+                                                <div class="col-sm-offset-4">
+                                                    <button type="button" id="btn-save-staff" class="btn btn-primary btn btn-primary col-sm-3">บันทึก</button>                                          
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -116,8 +119,8 @@
                                     console.log('r')
                                     $('#md-success h5').text('บันทึกข้อมูลสำเร็จ');
                                     $('#md-success').modal('show');
-                                    setTimeout(function(){                                        
-                                        location.reload();
+                                    setTimeout(function(){ 
+                                        window.location.assign("<?php echo base_url('administrator/admin'); ?>")
                                     }, 2000);
                                 }
                             }).fail(function (r) {

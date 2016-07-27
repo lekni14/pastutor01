@@ -96,8 +96,29 @@ class Mcourse extends CI_Model {
             return FALSE;
         }
     }
+    public function getAdminCourse_tAll()
+    { // รวมโครงการทั้งหมด จาก location
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('course'); 
+        if ($query->num_rows() > 0) {
+            $return = $query->result_array();
+            foreach ($query->result_array() as $key => $value) {
+                $return[$key]['application'] = $this->Mapplication->getCountApplicationByCourseId($value['id']);                  
+                //$return[$key]['course'] = $this->getAdminCourseByID($value['course_id']);            
+                if(!empty($return[$key]['application'])){
+                    $return[$key]['sum_applicants'] = $this->sum_applicants($return[$key]['application'],'sum_applicants');
+                }else{
+                    $return[$key]['sum_applicants'] = 0;
+                }
+                     
+            }
+            return $return;
+        } else {
+            return false;
+        }
+    }
     public function getAdminCourseAll()
-    {
+    { // รวมโครงการทั้งหมด จาก location
         $this->db->order_by('id','DESC');
         $query = $this->db->get('course_location'); 
         if ($query->num_rows() > 0) {

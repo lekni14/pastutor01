@@ -19,6 +19,7 @@ class Administrator extends CI_Controller {
         parent::__construct();
         // load model
         $this->load->model(array('Madministrator','Mmember','Mcourse'));
+        $this->load->library('breadcrumbs');   
     }
     public function index()
     {
@@ -81,7 +82,7 @@ class Administrator extends CI_Controller {
     }
     public function staff_index()
     {
-        $this->load->library('breadcrumbs');       
+            
         if ($this->session->has_userdata('admin')) {            
             $session = $this->session->userdata('admin');
             if($session['permission_id']==1){
@@ -138,11 +139,12 @@ class Administrator extends CI_Controller {
             'updated_at'=>  date('Y-m-d H:i:s'),
 
             );
-        $this->Madministrator->insert_entry($data);
+        
         $arr['admin'] = $data;
         $arr['subject'] = "แจ้งรหัสผ่านทีมงาน";
-        $arr['message'] = $this->load->view('admin/template/email-create-user',$data,TRUE);
+        $arr['message'] = $this->load->view('admin/template/email-create-user',$arr,TRUE);
         $this->sendMail($arr);
+        $this->Madministrator->insert_entry($data);
         echo json_encode(array('result'=>TRUE));
     }
     public function data_edit()

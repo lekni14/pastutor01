@@ -43,6 +43,7 @@
                                                         <div class="checkbox">
                                                             <label>
                                                                 <input type="hidden" name="id" value="<?=$admin['id']?>">
+                                                                <input type="hidden" value="0" name="active" />
                                                                 <input class="uniform" type="checkbox" value="1" name="active" <?=($admin['active']==1)?'checked':''?>  /> active
                                                             </label>
                                                         </div>
@@ -63,7 +64,7 @@
                                                 <div class="form-group">
                                                     <label for="email" class="col-sm-4 control-label">อีเมล์</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" name="email" data-parsley-required="true" value="<?=$admin['email']?>">
+                                                        <input type="email" class="form-control" name="email" data-parsley-required="true" value="<?=$admin['email']?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -81,7 +82,10 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <button type="button" id="btn-save-staff" class="btn btn-primary btn btn-primary col-sm-offset-4 col-sm-3">บันทึก</button>                                          
+                                                <div class="col-sm-offset-4">
+                                                    <button type="button" id="btn-save-staff" class="btn btn-primary btn btn-primary col-sm-offset-4 col-sm-3">บันทึก</button>                                                                                    
+                                                </div>
+                                                
                                             </form>
                                         </div>
                                     </div>

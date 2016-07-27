@@ -25,7 +25,7 @@ class Course extends CI_Controller {
         if ($this->session->has_userdata('admin')) {
 
             $this->breadcrumbs->list_course();
-            $data['course'] = $this->Mcourse->getAdminCourseAll();
+            $data['course'] = $this->Mcourse->getAdminCourse_tAll();
             $this->load->view('admin/course/course_index', $data);
         } else {
             redirect('administrator/login');

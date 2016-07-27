@@ -39,9 +39,6 @@ class Application extends CI_Controller{
     {   $data['course_id'] = $id;
         if ($this->session->has_userdata('admin')) {
             $this->breadcrumbs->list_application_detail($id);
-//                $data['application'] = $this->Mapplication->getApplicationByCourseId($id);
-//            $data['pay'] = $this->Mapplication->getApplicationFlowAdmin($id,array(1,8,9,10));
-//           $data['holders'] = $this->Mapplication->getApplicationFlowAdmin($id,array(3,7));
             if($this->permission()==1){
                 $this->load->view('admin/application/application_list', $data);
             }else{
@@ -146,7 +143,7 @@ class Application extends CI_Controller{
     function export_excel()
     {
         $_POST['course_location_id'] = $this->uri->segment(4);
-        $count = $this->Mapplication->count_all_by_course($_POST['course_id']);
+        $count = $this->Mapplication->count_all_by_course($_POST['course_location_id']);
         $_POST['search']['value'] = '';
         $_POST['start']=0;
         $_POST['length']=$count;        
@@ -165,7 +162,7 @@ class Application extends CI_Controller{
         $no = 1;
         foreach($list as $application){
             $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
-            $course = $this->Mcourse->getCourseByID($_POST['course_id']);
+            $course = $this->Mcourse->getCourseByID($application->course_id);
             //$numnil = (float) str_replace(',','.',$n->nilai);
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$application->app_code);
