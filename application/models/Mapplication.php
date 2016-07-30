@@ -14,7 +14,7 @@
 class Mapplication extends CI_Model {
 
     var $table = 'applicantion';
-    var $column_order = array('app_code','member.first_name','member.contact_no',null,null,'applicant_date',null); //set column field database for datatable orderable
+    var $column_order = array('app_code','member.first_name','member.contact_no',null,null,'applicant_date',null,null,null,null,null); //set column field database for datatable orderable
     var $column_search = array('app_code','member.first_name','member.last_name'); //set column field database for datatable searchable just firstname , lastname , address are searchable
     var $order = array('applicantion.id' => 'desc'); // default order 
     function __construct() {
