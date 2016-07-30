@@ -18,7 +18,7 @@ class Application extends CI_Controller{
         parent::__construct();
         // load model        
         $this->load->library(array('breadcrumbs','Formatdate'));
-        $this->load->model(array('Mcourse','Mapplicants','Mpayment_follow'));
+        $this->load->model(array('Mcourse','Mapplicants','Mpayment_follow','Mschool'));
     }
     private function permission(){
         $permission = $this->session->userdata('admin');
@@ -112,7 +112,9 @@ class Application extends CI_Controller{
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $key=> $application) {
+            $admin = $this->Madministrator->getById($application->admin_id);
             $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
+            $school =$this->Mschool->getSchoolByID($application->school_id);
             $no++;
             $row = array();
             //$row[] = ++$key;
@@ -120,11 +122,12 @@ class Application extends CI_Controller{
             $row[] = $application->first_name . ' ' . $application->last_name;
             $row[] = $application->nickname;
             $row[] = $application->contact_no;
+            $row[] = 'โรงเรียน'.$school['school_name'];
             $row[] = $this->Mapplicants->count_all_by_course($application->application_id);
             $row[] = $flow_name['name'];            
             $row[] = $this->formatdate->generate_date_today("d M Y H:i", strtotime($application->applicant_date), "th", true);
             $row[] = $this->formatdate->countday($application->applicant_date).' วันที่แล้ว';
-
+            $row[] = ($admin)?$admin['first_name'] . '  ' . $admin['last_name']:'ผลงานระบบ';
             //add html for action
             $row[] = anchor('administrator/application/detail/' . $application->course_id . '/' . $application->application_id, '<i class="icon-list icon-white"></i>', 'class="btn btn-success"');
 
@@ -148,7 +151,7 @@ class Application extends CI_Controller{
         $_POST['start']=0;
         $_POST['length']=$count;        
         $this->load->library('excel');
-        $heading=array('No','รหัสใบสมัคร','ชื่อ - นามสกุล','ชื่อเล่น','เบอร์โทร','คอร์ส-โครงการ','จำนวนผู้สมัคร','วันที่สมัคร','สถานนะ');
+        $heading=array('No','รหัสใบสมัคร','ชื่อ - นามสกุล','ชื่อเล่น','โรงเรียน','เบอร์โทร','คอร์ส-โครงการ','จำนวนผู้สมัคร','ผลงานของ','วันที่สมัคร','สถานนะ');
         $objPHPExcel = new PHPExcel();
         $objPHPExcel->getActiveSheet()->setTitle('test');
         $rowNumberH = 1;
@@ -161,18 +164,23 @@ class Application extends CI_Controller{
                 $row = 2;
         $no = 1;
         foreach($list as $application){
+           
+            $shool = $this->Mschool->getSchoolByID($application->school_id);
             $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($application->application_flow_id);
+            $admin = $this->Madministrator->getById($application->admin_id);
+            $adminname=($admin)?$admin['first_name'] . '  ' . $admin['last_name']:'ผลงานระบบ';
             $course = $this->Mcourse->getCourseByID($application->course_id);
-            //$numnil = (float) str_replace(',','.',$n->nilai);
             $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$no);
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$application->app_code);
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,$application->first_name . ' ' . $application->last_name);
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$application->nickname);
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$application->contact_no,PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,$course['name']);
-            $objPHPExcel->getActiveSheet()->setCellValueExplicit('G'.$row,$this->Mapplicants->count_all_by_course($application->application_id),PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,$this->formatdate->generate_date_today("d M Y H:i", strtotime($application->applicant_date), "th", true));
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.$row,$flow_name['name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,$shool['school_name']);
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,$application->contact_no,PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row,$course['name']);  
+            $objPHPExcel->getActiveSheet()->setCellValueExplicit('H'.$row,$this->Mapplicants->count_all_by_course($application->application_id),PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.$row,$adminname); 
+            $objPHPExcel->getActiveSheet()->setCellValue('J'.$row,$this->formatdate->generate_date_today("d M Y H:i", strtotime($application->applicant_date), "th", true));
+            $objPHPExcel->getActiveSheet()->setCellValue('K'.$row,$flow_name['name']);
             $row++;
             $no++;
         }

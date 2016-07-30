@@ -63,7 +63,7 @@
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <input name="course_id" type="hidden" value="<?=$course['id']?>">
+                        <input name="course_location_id" type="hidden" value="<?=$course['id']?>">
                         <div class="form-group">
                             <label class="control-label col-md-3">เลขประจำตัวประชาชน</label>
                             <div class="col-md-9">

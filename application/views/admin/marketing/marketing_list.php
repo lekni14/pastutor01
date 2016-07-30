@@ -47,7 +47,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>วันที่</th>
-                                                    <td><?=$course['course_date'].' - '.$course['course_end_date']?></td>
+                                                    <td><?=$this->formatdate->DatetimeThai("d M Y", strtotime($course['course_date']), "th", true).' - '.$this->formatdate->DatetimeThai("d M Y", strtotime($course['course_end_date']), "th", true)?></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -236,6 +236,9 @@
                             .done(function (r) {
                                 if (r.result == true) {
                                     reload_table();                                   
+                                }else{
+                                    $('#md-error h5').text(r.msg);
+                                    $('#md-error').modal('show');
                                 }
                             }).fail(function (r) {
                         $('#md-error h5').text('Error!! มีสิ่งผิดพลาดไม่สามารถติดต่อฐานข้อมูลได้');

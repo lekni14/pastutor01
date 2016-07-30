@@ -90,26 +90,32 @@
                                                             <figcaption class="ratings">
                                                                 <p>ระดับสมาชิก
                                                                     <?php 
-                                                                        $i=0;
-                                                                        while ($i<5){                                                
-                                                                            if($i<3){
-                                                                                echo '<a href="#"><span class="fa fa-star"></span></a>';                                                                                                    
-                                                                            }  else {
-                                                                                if($member['levelID']==1){
-                                                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
-                                                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
-                                                                                    break;
-                                                                                }elseif ($member['levelID']==2) {
-                                                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
-                                                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
-                                                                                    break;
-                                                                                }else{
-                                                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
-                                                                                }    
-                                                                            }                                                
-                                                                            $i++;
-                                                                        }                                            
-                                                                        ?>
+                                                if($member['levelID']==0){
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                }elseif($member['levelID']==1){
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                }elseif ($member['levelID']==2) {
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star-o"></span></a>';
+                                                }else{
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                    echo '<a href="#"><span class="fa fa-star"></span></a>';
+                                                }                                 
+                                            ?>
                                                                 </p>
                                                             </figcaption>                                                            
                                                         </figure>

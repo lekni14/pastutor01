@@ -35,6 +35,8 @@ class Marketing extends CI_Controller {
             $sesion = $this->session->userdata('admin');
             $this->breadcrumbs->list_marketing_detail($id);
             $data['course'] = $this->Mcourse_location->getLocationByID($id);
+//            print_r($data);
+//            exit();
             if($sesion['permission_id']==1){
                 $this->load->view('admin/marketing/application_list', $data);
             }else{
@@ -93,10 +95,11 @@ class Marketing extends CI_Controller {
         echo json_encode($data);
     }
     function dataPost() {
+        
         $session = $this->session->userdata('admin');
         $data = array(
             'admin_id'=> $session['id'],
-            'course_id' => $this->input->post('course_id'),
+            'course_location_id' => $this->input->post('course_location_id'),
             'first_name' => $this->input->post('first_name'),
             'last_name' => $this->input->post('last_name'),
             'nickname' => $this->input->post('nickname'),
@@ -105,18 +108,21 @@ class Marketing extends CI_Controller {
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         );
-        
-        if (empty($_POST['id'])) {
-            if ($this->Mmarketing->entry_insert($data)) {
-                $msg = array('result' => TRUE);
-            } else {
-                $msg = array('result' => FALSE);
-            }
-        } else { 
-            if ($this->Mmarketing->entry_update($this->input->post('id'),$data)) {
-                $msg = array('result' => TRUE);
-            } else {
-                $msg = array('result' => FALSE);
+        if($this->Mmarketing->get__by_identification($this->input->post('identification'),$this->input->post('course_location_id'))){
+            $msg = array('result' => FALSE,'msg'=>'รายชื่อนี้มีในระบบแล้ว');
+        }else{            
+            if (empty($_POST['id'])) {
+                if ($this->Mmarketing->entry_insert($data)) {
+                    $msg = array('result' => TRUE);
+                } else {
+                    $msg = array('result' => FALSE);
+                }
+            } else { 
+                if ($this->Mmarketing->entry_update($this->input->post('id'),$data)) {
+                    $msg = array('result' => TRUE);
+                } else {
+                    $msg = array('result' => FALSE);
+                }
             }
         }
         echo json_encode($msg);
@@ -132,7 +138,6 @@ class Marketing extends CI_Controller {
     }
     public function ajax_payment_list() {
         // การตลาด ใบสมัคร
-       
         $session = $this->session->userdata('admin');
         $_POST['admin_id'] = $session['id'];
         $_POST['course_location_id'] = $this->uri->segment(3);
@@ -145,14 +150,16 @@ class Marketing extends CI_Controller {
             $row = array();
             $flow_name = $this->Mapplication_flow->getApplication_flow_by_app($person->application_flow_id);
             $market = $this->Madministrator->getById($person->admin_id);
-            $row[] = $person->identification;
+            $row[] = $person->app_code;
             $row[] = $person->first_name . ' ' . $person->last_name;
             $row[] = $person->contact_no;
             $row[] = $flow_name['name']; ;
             $row[] = $this->formatdate->DatetimeThai("d M Y", strtotime($person->applicant_date), "th", true);
-
+            if($session['permission_id']==1){
+                $row[] = $row[] = ($market)?$market['first_name'] . ' ' . $market['last_name']:'ผลงานระบบ';
+            }
             //add html for action
-            $row[] = $row[] = ($market)?$market['first_name'] . ' ' . $market['last_name']:'ผลงานระบบ';
+            
 
             $data[] = $row;
         }
