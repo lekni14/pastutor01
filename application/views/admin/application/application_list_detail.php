@@ -15,6 +15,14 @@
             <!-- END HEADER SECTION -->
             <!-- MENU SECTION -->
             <?php $this->load->view('admin/template/leftmenu'); ?>            
+             <?php
+                                    $session = $this->session->userdata('admin'); 
+                                    if($session['permission_id'] == 1){
+                                        $application_flow_id = 11;
+                                    }else if($session['permission_id'] == 2){
+                                        $application_flow_id = 10;
+                                    }
+                                        ?>
             <!--END MENU SECTION -->
             <!--PAGE CONTENT -->
             <div id="content">
@@ -36,8 +44,10 @@
                                 <div class="body">
                                     <div class="row">
                                         <div class="col-md-12 text-left">
+                                            
                                             <?php echo anchor('administrator/payin/'.$application['id'],'<i class="fa fa-print fa-2x fa-lg"></i> <span>พิมพ์ใบชำระเงิน</span>','class="btn btn-success" target="_blank"') ?>
                                             <?php echo anchor('administrator/application_print/'.$application['id'],'<i class="fa fa-print fa-2x fa-lg"></i> <span>พิมพ์ใบลงทะเบียน</span>','class="btn btn-warning" target="_blank"') ?>
+                                            <?php echo anchor('administrator/payment-follow-cancle', 'ยกเลิกใบสมัคร', 'class="btn btn-danger col-sm-2 pull-right btn-confirm" data-id="'.$application['id'].'" data-application-flow-id="'.$application_flow_id.'"'); ?>
                                         </div><br>
                                     </div>
                                     <div class="table-responsive">
@@ -76,9 +86,7 @@
                                             </tr>
                                         </table>
                                     </div>                                    
-                                    <?php
-                                    $session = $this->session->userdata('admin');                                    
-                                        ?>
+                                   
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="well well-sm">
