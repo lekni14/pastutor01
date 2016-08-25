@@ -63,4 +63,12 @@ class Mcourse_location extends CI_Model {
         $query = $this->db->get('course_location');
         return $query->result_array();   
     }
+    public function get_course_end_date_by_course($id)
+    {
+        $this->db->limit(1);
+        $this->db->order_by('id','DESC');
+        $this->db->where('course_id',$id);
+        $query = $this->db->get('course_location');
+        return $query->row()->course_date;   
+    }
 }

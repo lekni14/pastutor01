@@ -51,7 +51,7 @@
                                 <div class="form-group">
                                     <label for="InputContactNo" class="col-sm-4 control-label">โทรศัพท์<span class="required">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="contact_no" class="form-control numeric" id="InputContactNo" maxlength="10" required="" data-parsley-validation-threshold="1" data-parsley-trigger="keyup">
+                                        <input type="text" name="contact_no" class="form-control numeric" id="InputContactNo" data-parsley-type="number" data-parsley-length="[10, 10]" required="" data-parsley-validation-threshold="1" data-parsley-trigger="keyup">
                                     </div>
                                 </div>
                                 <div class="form-group">

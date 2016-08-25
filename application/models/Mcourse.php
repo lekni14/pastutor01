@@ -53,9 +53,10 @@ class Mcourse extends CI_Model {
     }    
     public function getCourse()
     {
-        $this->db->order_by('id','DESC');
+        $this->db->order_by('course.id','DESC');
         $this->db->where('active',1);
-         $this->db->where('reg_end_date >=', date('Y-m-d'));
+        //$this->db->join('course_location','course_location.course_id=course.id');
+        //$this->db->where('reg_end_date >', date('Y-m-d'));
         $query = $this->db->get('course'); 
         if ($query->num_rows() > 0) {
             $return = $query->result_array();

@@ -53,7 +53,15 @@ class App  extends CI_Controller{
                     $this->cart->destroy();
                     $this->session->set_flashdata('msg', 'โครงการนี้คุณได้สมัครแล้ว');
                 }else{
-                    $data['course'] = $this->Mcourse->getCourseByID($item['id']);
+                    $course = $this->Mcourse->getCourseByID($item['id']);
+                    if(strtotime(date('Y-m-d'))<strtotime($course['reg_end_date'])){
+                        $this->session->set_flashdata('msg', 'หมดเขตการรับสมัครผ่านเว็บแอพพลิเคชั่น ถ้าต้องการสมัครให้ติดต่อทีมงาน');
+                        $data['cart']=FALSE;
+                    $this->cart->destroy();
+                    }else{
+                        $data['course'] = $this->Mcourse->getCourseByID($item['id']);
+                    }
+                    //$data['course'] = $this->Mcourse->getCourseByID($item['id']);
                 }
                             
             }        

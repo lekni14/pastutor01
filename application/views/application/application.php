@@ -391,6 +391,7 @@
             <?php endif; ?>
             $(document).ready(function () {
                 <?php if($this->session->flashdata('msg')): ?>
+                     
                     $('#md-error h5').text('Error!! <?php echo $this->session->flashdata('msg'); ?>');
                     $('#md-error').modal('show');
                 <?php endif; ?>
