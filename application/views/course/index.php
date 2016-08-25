@@ -22,6 +22,7 @@
         <section class="container">
             <div id="products" class="row list-group">
                 <?php if($course): foreach ($course as $key => $value) { ?>
+                    <?php if(strtotime(date('Y-m-d'))<strtotime($this->Mcourse_location->get_course_end_date_by_course($value['id']))):  ?>
                 <div class="item col-xs-12 col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <?php echo anchor('course/'.$value['id'],'<img class="group list-group-image" src="'.base_url().$value['storage'][0]['upload_path'].$value['storage'][0]['new_image'].'" alt="" />'); ?>                        
