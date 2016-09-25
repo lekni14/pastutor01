@@ -126,9 +126,11 @@
                             },
                             <?php endif; ?>
                             {
-                                extend:'excel',
-                                text:'<i class="fa fa-file-excel-o"></i> Export to Excel',
-                                className: 'btn btn-default'
+                                text: '<i class="fa fa-file-excel-o"></i> Export to Excel',
+                                className:'btn btn-default',
+                                action: function ( e, dt, node, config ) {
+                                    window.location = "<?php echo site_url('admin/Member/export_excel'); ?>";
+                                }
                             }
                             
                         ],             

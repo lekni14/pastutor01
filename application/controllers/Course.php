@@ -50,9 +50,12 @@ class Course extends CI_Controller {
         }
         echo json_encode($array);
     }
-    public function cart()
+    function get_location($id)
     {
-        
+        $data = $this->Mcourse_location->get_location_by_id($id);       
+        $data->course_date = ($data->course_date == '0000-00-00') ? '' : date("d/m/Y", strtotime($data->course_date)); // if 0000-00-00 set tu empty for datepicker compatibility
+        $data->course_end_date = ($data->course_end_date == '0000-00-00') ? '' : date("d/m/Y", strtotime($data->course_end_date)); // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($data);
     }
 
 }

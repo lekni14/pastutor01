@@ -17,7 +17,7 @@ class Member extends CI_Controller {
         // Construct the parent class
         parent::__construct();
         // load model        
-        $this->load->model(array('Mmember','Mapplication','Mmember_level'));
+        $this->load->model(array('Mmember','Mapplication','Mmember_level','Maddress'));
         $this->load->library(array('breadcrumbs', 'Formatdate'));
     }
 
@@ -119,5 +119,46 @@ class Member extends CI_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+    function export_excel()
+    {
+        $count = $this->Mmember->count_all_by_course();
+        $_POST['search']['value'] = '';
+        $_POST['start']=0;
+        $_POST['length']=$count;        
+        $this->load->library('excel');
+        $heading=array('รหัสสมาชิก','เลขประจำตัวประชาชน','ชื่อ - นามสกุล','ชื่อเล่น','ที่อยู่','เบอร์โทร','โรงเรียน','ระดับสมาชิก');
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->getActiveSheet()->setTitle('สมาชิก');
+        $rowNumberH = 1;
+        $colH = 'A';
+        foreach($heading as $h){
+            $objPHPExcel->getActiveSheet()->setCellValue($colH.$rowNumberH,$h);
+            $colH++;    
+        }
+        $list = $this->Mmember->get_datatables();
+                $row = 2;
+        $no = 1;
+        foreach($list as $member){
+           $level = $this->Mmember_level->get_by_id($member->levelID);
+            $shool = $this->Mschool->getSchoolByID($member->school_id);
+            $address = $this->Maddress->getAddress($member->id);
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$member->member_code);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,$member->identification);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row,$member->first_name . ' ' . $member->last_name);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,$member->nickname);
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$row,'บ้านเลขที่ '.$address['hno'].' หมู่ '.$address['mno'].' ซอย '.$address['lane'].' ถนน '.$address['road'].' ตำบล'.$address['sub_district']['DISTRICT_NAME'].' อำเภอ'.$address['district']['AMPHUR_NAME'].' จังหวัด'.$address['province']['PROVINCE_NAME']);
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,$member->contact_no,PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row,$shool['school_name']);  
+            $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,$level['name']);
+            $row++;
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="member.xls"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter->save('php://output');
+        exit();
     }
 }

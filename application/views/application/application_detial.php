@@ -74,11 +74,7 @@
                     <div class="row">
                         <div class="col-md-2"><img width="70" src="<?php echo base_url('img/KTB.jpg'); ?>"></div>
                         <div class="col-md-10"><h2>984-0-30425-9</h2></div>
-                    </div><br>
-                    <div class="row">
-                        <div class="col-md-2"><img width="70" src="<?php echo base_url('img/logo_scb.png'); ?>"></div>
-                        <div class="col-md-10"><h2>964-2-00100-0</h2></div>
-                    </div>   
+                    </div><br> 
                     <?php elseif($application['application_flow_id']==3): ?>
                     <?php echo anchor('app/application_print/'.$application['id'],'<i class="fa fa-print fa-4x  fa-2x fa-lg"></i> <span style="color: #fff;font-size: 30px;">พิมพ์ใบลงทะเบียน</span>','class="btn btn-block btn-success" target="_blank"') ?>
                     <?php endif; ?>

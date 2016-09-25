@@ -26,6 +26,13 @@ class Mcourse_location extends CI_Model {
         $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
+    public function update_entry($data)
+    {
+        extract($data);
+        $this->db->where('id', $data['id']);
+        $this->db->update('course_location', $data);
+        return true;
+    }
     public function getLocationByCourseID($id)
     {
         $this->db->where('course_id',$id);
@@ -51,6 +58,12 @@ class Mcourse_location extends CI_Model {
         $return = $query->row_array();   
         $return['course'] = $this->Mcourse->getAdminCourseByID($return['course_id']); 
         return $return;
+    }
+    public function get_location_by_id($id)
+    {
+        $this->db->where('id',$id);
+        $query = $this->db->get('course_location');        
+        return $query->row();  
     }
     public function delete_location($id)
     {

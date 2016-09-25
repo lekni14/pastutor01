@@ -146,27 +146,25 @@
                                                                             <td><strong>ลบ</strong></td>
                                                                         </tr>
                                                                         <?php if ($course['location']): foreach ($course['location'] as $key => $value) : ?>
-                                                                        <tr id="<?=$key?>">
-                                                                            <td>
-                                                                                <input type="text" class="form-control" name="location[<?=$key?>][name]" readonly id="name" data-parsley-required="true" value="<?= $value['name'] ?>">
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" class="form-control" readonly name="location[<?=$key?>][cousre_date]" value="<?= date("d/m/Y", strtotime($value['course_date'])); ?>" id="start_date" />
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" class="form-control" readonly name="location[<?=$key?>][cousre_end_date]" value="<?= date("d/m/Y", strtotime($value['course_end_date'])); ?>" id="end_date" />
-                                                                            </td>
-                                                                            <td>
-<!--                                                                                <div class="checkbox anim-checkbox">
-                                                                                    <input type="checkbox" id="ch1" class="danger" />
-                                                                                    <label for="ch1">ลบ</label>
-                                                                                </div>-->
-                                                                                <a href="<?php echo base_url('api/course_location/delete'); ?>" class="btn btn-danger btn-sm btn-confirm" data-id="<?= $value['id'] ?>" data-row="<?=$key?>"><i class="icon-trash"></i></a>
-                                                                                <!--<button type="button" class="btn btn-danger btn-sm" onclick="delrow(<?=$key?>)"><i class="icon-trash"></i></button>-->
-                                                                            </td>
-                                                                        </tr>
+                                                                                <tr id="<?= $key ?>">
+                                                                                    <td>
+                                                                                        <input type="text" class="form-control" name="location[<?= $key ?>][name]" readonly id="name" data-parsley-required="true" value="<?= $value['name'] ?>">
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input type="text" class="form-control" readonly name="location[<?= $key ?>][cousre_date]" value="<?= date("d/m/Y", strtotime($value['course_date'])); ?>" id="start_date" />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input type="text" class="form-control" readonly name="location[<?= $key ?>][cousre_end_date]" value="<?= date("d/m/Y", strtotime($value['course_end_date'])); ?>" id="end_date" />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="edit_location(<?= $value['id'] ?>)"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                                                        <a href="<?php echo base_url('api/course_location/delete'); ?>" class="btn btn-danger btn-sm btn-confirm" data-id="<?= $value['id'] ?>" data-row="<?= $key ?>"><i class="icon-trash"></i></a>                                                                                        
+                                                                                        <!--<button type="button" class="btn btn-danger btn-sm" onclick="delrow(<?= $key ?>)"><i class="icon-trash"></i></button>-->
+                                                                                    </td>
+                                                                                </tr>
                                                                             <?php endforeach;
-                                                                        endif; ?>
+                                                                        endif;
+                                                                        ?>
                                                                     </thead>
                                                                 </table>    
                                                             </div>
@@ -181,12 +179,14 @@
                                                                     <tbody>
                                                                         <tr>
                                                                             <td>ภาพหน้าปก(300x180)
-    <?php $img = search($course['storage'], 'filename', '300x180');
-$id = 0;
-if ($img) {
-    $img =end($img);
-    $id = $img['id'];
-} ?>
+                                                                                <?php
+                                                                                $img = search($course['storage'], 'filename', '300x180');
+                                                                                $id = 0;
+                                                                                if ($img) {
+                                                                                    $img = end($img);
+                                                                                    $id = $img['id'];
+                                                                                }
+                                                                                ?>
                                                                             </td>
                                                                             <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
                                                                             <td>
@@ -204,12 +204,14 @@ if ($img) {
 
                                                                         </tr>
                                                                         <tr>
-                                                                            <td>ภาพรายละเอียด<?php $large = search($course['storage'], 'filename', 'large');
+                                                                            <td>ภาพรายละเอียด<?php
+                                                                                $large = search($course['storage'], 'filename', 'large');
                                                                                 $id = 0;
                                                                                 if ($large) {
-                                                                                     $large =end($large);
+                                                                                    $large = end($large);
                                                                                     $id = $large['id'];
-                                                                                } ?></td>
+                                                                                }
+                                                                                ?></td>
                                                                             <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
                                                                             <td>
                                                                                 <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -226,12 +228,14 @@ if ($img) {
                                                                             </td>                                                                        
                                                                         </tr>
                                                                         <tr>
-                                                                            <td>เอกสารกำหนดการ(pdf)<?php $schedule = search($course['storage'], 'filename', 'schedule');
-                                                                                    $id = 0;
-                                                                                    if ($schedule) {
-                                                                                        $schedule =end($schedule);
-                                                                                        $id = $schedule['id'];
-                                                                                    } ?>
+                                                                            <td>เอกสารกำหนดการ(pdf)<?php
+                                                                                $schedule = search($course['storage'], 'filename', 'schedule');
+                                                                                $id = 0;
+                                                                                if ($schedule) {
+                                                                                    $schedule = end($schedule);
+                                                                                    $id = $schedule['id'];
+                                                                                }
+                                                                                ?>
                                                                             </td>
                                                                             <td><a target="_blank" href="<?php echo base_url('administrator/file/download/' . $id); ?>" class="btn btn-primary"><i class="icon-download"></i></a></td>
                                                                             <td><div class="fileupload fileupload-new" data-provides="fileupload">
@@ -278,7 +282,7 @@ if ($img) {
                             <div class="form-group">
                                 <label for="location">สถานที่</label>
                                 <textarea data-parsley-required="true" id="inputlocation" name="inputlocation" class="form-control" rows="3"></textarea>
-                                <input type="hidden" name="course_id" value="<?=$course['id']?>">
+                                <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                             </div>
                             <div class="form-group">
                                 <label for="location">วันที่เริ่ม</label>
@@ -301,7 +305,7 @@ if ($img) {
 
         <!-- FOOTER -->
 <?php $this->load->view('admin/template/footer') ?>
-        <?php $this->load->view('admin/template/modals') ?>
+<?php $this->load->view('admin/template/modals') ?>
         <!--END FOOTER -->
 
 
@@ -313,54 +317,56 @@ if ($img) {
         <script src="<?php echo base_url(); ?>assets/plugins/jasny/js/bootstrap-inputmask.js"></script>
         <script>
             $('.uniform').uniform();
-            $( document ).ready(function() {
-                console.log($("input[name=course_type]").val())
-               if($("input[name=course_type]").val()==0){
-                    $("#discount").attr("readonly",'');
-                    $("#person").attr("readonly",'');
-                }else{
+            $(document).ready(function () {
+                <?php if($this->session->flashdata('tab')){ ?>
+                        $('.nav-tabs a[href="#location"]').tab('show');
+                <?php } ?>
+                if ($("input[name=course_type]").val() == 0) {
+                    $("#discount").attr("readonly", '');
+                    $("#person").attr("readonly", '');
+                } else {
                     $("#discount").removeAttr("readonly");
                     $("#person").removeAttr("readonly");
                 }
-                
+
             });
-            $( "input[name=course_type]" ).on( "click", function() {
-                if($(this).val()==0){
-                    $("#discount").attr("readonly",'');
-                    $("#person").attr("readonly",'');
-                }else{
+            $("input[name=course_type]").on("click", function () {
+                if ($(this).val() == 0) {
+                    $("#discount").attr("readonly", '');
+                    $("#person").attr("readonly", '');
+                } else {
                     $("#discount").removeAttr("readonly");
                     $("#person").removeAttr("readonly");
                 }
-              console.log($( "input:checked" ).val());
+                console.log($("input:checked").val());
 //                $('#graphFrame').toggle(function(){
 //                      var $this = $(this);
 //                      $this.is(":visible") ? $this.attr('src', 'graph1.php') : $this.removeAttr('src')
 //                });
             });
-            $(".btn-confirm").click(function (e){
+            $(".btn-confirm").click(function (e) {
                 e.preventDefault()
                 $("#md-confirm h5").text('ยืนยันลบข้อมูลสถานที่');
-                $("#md-confirm a").attr( 'href',$(this).attr('href') );
-                $("#md-confirm a").attr( 'data-id',$(this).attr('data-id') );
-                $("#md-confirm a").attr( 'data-row',$(this).attr('data-row') );
-                $("#md-confirm").modal('show')  
+                $("#md-confirm a").attr('href', $(this).attr('href'));
+                $("#md-confirm a").attr('data-id', $(this).attr('data-id'));
+                $("#md-confirm a").attr('data-row', $(this).attr('data-row'));
+                $("#md-confirm").modal('show')
             });
-            $("#btn-confirm-delete").click(function (e){
+            $("#btn-confirm-delete").click(function (e) {
                 e.preventDefault()
-                $("#md-confirm").modal('hide') 
-                
-                ajaxRequest($(this).attr('href'),{'id':$(this).attr('data-id'),'row':$(this).attr('data-row')},"POST")
-                    .done(function(r) {
-                        if(r.result==true){
-                            delrow(r.data)
-                            $('#md-success h5' ).text('ลบข้อมูลสำเร็จ');
-                            $('#md-success').modal('show');
-                        } 
-                    }).fail(function(r) {
-                           $('#md-error h5' ).text('Error!! มีสิ่งผิดพลาดไม่สามารถติดต่อฐานข้อมูลได้');
-                           $('#md-error').modal('show');
-                    });
+                $("#md-confirm").modal('hide')
+
+                ajaxRequest($(this).attr('href'), {'id': $(this).attr('data-id'), 'row': $(this).attr('data-row')}, "POST")
+                        .done(function (r) {
+                            if (r.result == true) {
+                                delrow(r.data)
+                                $('#md-success h5').text('ลบข้อมูลสำเร็จ');
+                                $('#md-success').modal('show');
+                            }
+                        }).fail(function (r) {
+                    $('#md-error h5').text('Error!! มีสิ่งผิดพลาดไม่สามารถติดต่อฐานข้อมูลได้');
+                    $('#md-error').modal('show');
+                });
             });
             $('#btn-save-course').click(function () {
                 var $form = $("#frm-course");
@@ -386,25 +392,27 @@ if ($img) {
                 format: 'dd/mm/yyyy'
             });
             $("#btn-add-location").click(function () {
+                $('<input>').attr({type: 'hidden',id: 'foo',name: 'update',value:0}).appendTo('#frm-location');
                 $("#md-location").modal('show');
             });
-            var row = $("#tb-location tr").length-1;
+            var row = $("#tb-location tr").length - 1;
             $("#btn-save-location").click(function () {
                 var $form = $("#frm-location");
                 if ($form.parsley().validate()) {
                     console.log($form.serializeArray())
-                    ajaxRequest("<?php echo base_url('api/course_location/update'); ?>",$form.serializeArray(),"POST")
-                    .done(function(r) {
-                        if(r.result==true){
-                            $('#tb-location tr:last').after('<tr id="' + row + '"><td><input type="text" class="form-control" name="location[' + row + '][name]" id="name" value="' + $("#inputlocation").val() + '" readonly></td><td><input type="text" class="form-control" name="location[' + row + '][cousre_date]" value="' + $("#inputcousre_date").val() + '" readonly></td><td><input type="text" class="form-control datepicker" name="location[' + row + '][cousre_end_date]" value="' + $("#inputcousre_end_date").val() + '" id="" readonly /></td><td><a href="http://localhost/pastutor/api/course_location/delete" class="btn btn-danger btn-sm btn-confirm" data-id="'+r.data.id+'" data-row="0"><i class="icon-trash"></i></a></td></tr>');
-                            row++;
-                            $("#md-location").modal('hide');
-                        } 
-                    }).fail(function(r) {
-                           $('#md-error h5' ).text('Error!! มีสิ่งผิดพลาดไม่สามารถติดต่อฐานข้อมูลได้');
-                           $('#md-error').modal('show');
+                    ajaxRequest("<?php echo base_url('api/course_location/update'); ?>", $form.serializeArray(), "POST")
+                            .done(function (r) {
+                                if (r.result == true) {
+                                    location.reload();
+//                                    $('#tb-location tr:last').after('<tr id="' + row + '"><td><input type="text" class="form-control" name="location[' + row + '][name]" id="name" value="' + $("#inputlocation").val() + '" readonly></td><td><input type="text" class="form-control" name="location[' + row + '][cousre_date]" value="' + $("#inputcousre_date").val() + '" readonly></td><td><input type="text" class="form-control datepicker" name="location[' + row + '][cousre_end_date]" value="' + $("#inputcousre_end_date").val() + '" id="" readonly /></td><td><a href="http://localhost/pastutor/api/course_location/delete" class="btn btn-danger btn-sm btn-confirm" data-id="' + r.data.id + '" data-row="0"><i class="icon-trash"></i></a></td></tr>');
+//                                    row++;
+//                                    $("#md-location").modal('hide');
+                                }
+                            }).fail(function (r) {
+                        $('#md-error h5').text('Error!! มีสิ่งผิดพลาดไม่สามารถติดต่อฐานข้อมูลได้');
+                        $('#md-error').modal('show');
                     });
-                   
+
                 }
             });
             function delrow(id)
@@ -417,6 +425,36 @@ if ($img) {
             $('#inputcousre_end_date').datepicker({
                 format: 'dd/mm/yyyy'
             });
+            function edit_location(id)
+            {
+                save_method = 'update';
+                $('#form')[0].reset(); // reset form on modals
+                $('.form-group').removeClass('has-error'); // clear error class
+                $('.help-block').empty(); // clear error string
+
+                //Ajax Load data from ajax
+                $.ajax({
+                    url: "<?php echo site_url('get_location/') ?>/" + id,
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data)
+                    {
+                        $('<input>').attr({type: 'hidden',id: 'foo',name: 'update',value:1}).appendTo('#frm-location');
+                        $('<input>').attr({type: 'hidden',id: 'foo',name: 'id',value:data.id}).appendTo('#frm-location');
+                        $('[name="id"]').val(data.id);
+                        $('[name="inputlocation"]').val(data.name);
+                        $('[name="inputcousre_date"]').datepicker('setValue', data.course_date);
+                        $('[name="inputcousre_end_date"]').datepicker('setValue', data.course_end_date);
+                        $("#md-location").modal('show');
+                        $('.modal-title').text('Edit Location'); // Set title to Bootstrap modal title
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+            }
         </script>
 
 

@@ -90,12 +90,7 @@ $html = '
         <td width="50"><img src="'.base_url().'img/KTB.jpg" width="50"></td>
         <td><BR>บมจ.ธนาคารกรุงไทย</td>
         <td><BR>984-0-30425-9</td>
-    </tr>
-    <tr>
-        <td><img src="'.base_url().'img/KTB.jpg" width="50"></td>
-        <td>บมจ.ธนาคารไทยพานิชย์</td>
-        <td>964-2-00100-0</td>
-    </tr>
+    </tr>   
 </table>
 ';
 $pdf->writeHTMLCell(0, 1, 20, '', $html, 0, 1, 0, true, 'L', true);

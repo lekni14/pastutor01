@@ -54,7 +54,7 @@ class App  extends CI_Controller{
                     $this->session->set_flashdata('msg', 'โครงการนี้คุณได้สมัครแล้ว');
                 }else{
                     $course = $this->Mcourse->getCourseByID($item['id']);
-                    if(strtotime(date('Y-m-d'))<strtotime($course['reg_end_date'])){
+                    if(strtotime(date('Y-m-d'))>strtotime($course['reg_end_date'])){
                         $this->session->set_flashdata('msg', 'หมดเขตการรับสมัครผ่านเว็บแอพพลิเคชั่น ถ้าต้องการสมัครให้ติดต่อทีมงาน');
                         $data['cart']=FALSE;
                     $this->cart->destroy();
@@ -96,7 +96,7 @@ class App  extends CI_Controller{
     public function print_allpication($id)
     {
         //load library
-        $this->load->library('zend');
+       // $this->load->library('zend');
         //generate barcode
         $this->load->library("Pdf");
         $pay = array(

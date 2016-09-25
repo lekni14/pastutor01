@@ -15,9 +15,9 @@ $location = ($application['location']) ? $application['location']['name'] : '';
 //-------------------------------------------------------------
 
 // FPDF toevoegen om PDF te genereren
-require_once('fpdf16/fpdf.php');
+//require_once('fpdf16/fpdf.php');
 // FDDI toevoegen om vectoren e.d. toe te kunnen voegen
-require_once('fpdf16/fpdi.php');
+//require_once('fpdf16/fpdi.php');
 // Code128 toevoegen om barcodes te genereren
 //require_once('fpdf16/code128.php');
 
@@ -108,9 +108,10 @@ var $SetTo;                                            // Convertisseur destinat
 var $JStart = array("A"=>103, "B"=>104, "C"=>105);     // Caract่res de s้lection de jeu au d้but du C128
 var $JSwap = array("A"=>101, "B"=>100, "C"=>99);       // Caract่res de changement de jeu
 
-function bezwaar($orientation='P', $unit='mm', $format='A4') {
+function __construct($orientation='P', $unit='mm', $format='A4') {
 
-	parent::FPDF($orientation,$unit,$format);
+    parent::__construct($orientation,$unit,$format);
+	//parent::FPDF($orientation,$unit,$format);
 
 	$this->T128[] = array(2, 1, 2, 2, 2, 2);           //0 : [ ]               // composition des caract่res
 	$this->T128[] = array(2, 2, 2, 1, 2, 2);           //1 : [!]
@@ -450,10 +451,16 @@ if ($schedule) {
     $schedule = end($schedule);
     $image = $schedule['upload_path'].$schedule['new_image'];
 } 
-$pdf->addPage(); // Pagina openen
-$pdf->setSourceFile($image); // Template openen
-$tplidx = $pdf->importPage(1, '/MediaBox'); // Template importeren
-$pdf->useTemplate($tplidx, 0, 0, 210); // Marge, Marge, Breedte.
+
+$pageCount = $pdf->setSourceFile($image); // Template openen
+for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+    
+
+    $pdf->addPage(); // Pagina openen
+    $tplidx = $pdf->importPage($pageNo, '/MediaBox'); // Template importeren
+    $pdf->useTemplate($tplidx, 0, 0, 210); // Marge, Marge, Breedte.
+}
+
 
 //$pdf->MultiCell(0,4,$inhoud); // $inhoud komt uit een database
 $pdf->Output();

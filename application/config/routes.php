@@ -67,6 +67,7 @@ $route['app/edit/(:num)'] = 'App/application_edit/$1';
 $route['app/application_print/(:num)'] = 'App/print_allpication/$1';
 $route['course'] = 'Course/index';
 $route['course/(:num)'] = 'Course/course_detail/$1';
+$route['get_location/(:num)'] = 'Course/get_location/$1';
 $route['payin/(:num)'] = 'Payments/application_print/$1';
 $route['modal/application'] = 'App/modal_application';
 $route['forget-password'] = 'Member/forget_password';
