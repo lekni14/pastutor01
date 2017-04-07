@@ -53,7 +53,7 @@ class Application extends CI_Controller{
         if ($this->session->has_userdata('admin')) {
 
             $this->breadcrumbs->list_application_detail_list($course_id);
-            $data['application'] = $this->Mapplication->getApplicatoinByID($application_id);
+            $data['application'] = $this->Mapplication->getApplicatoinByID($application_id);            
             $data['follow'] = $this->Mpayment_follow->getFollowByCourse($application_id);
             $this->load->view('admin/application/application_list_detail', $data);
         } else {

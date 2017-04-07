@@ -37,8 +37,9 @@
                     <?php 
                     $path ='';
                         $large = search($course['storage'], 'filename', 'large');
+						$storage = end($large);
                         if ($large) {
-                           $path = $large[0]['upload_path'].$large[0]['new_image'];
+                           $path = $storage['upload_path'].$storage['new_image'];
                         } 
                         
                     ?>

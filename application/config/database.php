@@ -74,10 +74,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',//idev.in.th:3306
-	'username' => 'idevint1_pas',//idevint1_pas
-	'password' => '8qYO7nkbym',//8qYO7nkbym
-	'database' => 'idevint1_pas',
+	'hostname' => 'pastutor.com',//idev.in.th:3306
+	'username' => 'pastutor',//idevint1_pas
+	'password' => 'Ek4z?b80',//8qYO7nkbym
+	'database' => 'pastutor_com_pas',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

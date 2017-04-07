@@ -162,13 +162,14 @@ class Mapplication extends CI_Model {
     }
 
     public function getApplicatoinByID($data) {
-        $this->db->where('id', $data);
+        $this->db->where('applicantion.id', $data);
+        //$this->db->join('course_location','applicantion.course_location_id=course_location.id');
         $query = $this->db->get('applicantion');
         if ($query->num_rows() > 0) {
             $return = $query->row_array();
             $return['member'] = $this->Mmember->getMember($return['member_id']);
             $return['course'] = $this->Mcourse->getCourseByID($return['course_id']);
-            $return['location'] = $this->Mcourse_location->getLocationByID($return['course_id']);
+            $return['location'] = $this->Mcourse_location->getLocationByID($return['course_location_id']);
             $return['payments'] = $this->Mpayments->getPaymentByApp($return['id']); 
             $return['applicants'] = $this->Mapplicants->getApplicantsByApp($return['id']);
             $return['flow'] = $this->Mapplication_flow->getApplication_flow_by_app($return['application_flow_id']);

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <?php $this->load->view('template/css'); ?>    
+    <?php $this->load->view('template/css'); ?>   
+<?php $this->load->view('admin/template/phpfunction'); ?> 	
     <body>
         <?php $this->load->view('template/nav'); ?> 
         <?php $this->load->view('template/ThaiDate'); ?>   
@@ -45,7 +46,12 @@
                                         <li class="list-group-item cart">
                                             <div class="media col-md-3">
                                                 <figure class="pull-left">
-                                                    <img class="media-object img-rounded img-responsive"  src="<?php echo base_url() . $course['storage'][0]['upload_path'] . $course['storage'][0]['new_image'] ?>" alt="" >
+												<?php 
+                                                    //$storage = end($course['storage']) 
+                                                    $thumbnail = search($course['storage'], 'filename', '300x180');
+                                                    $storage = end($thumbnail);
+                                                ?>
+                                                    <img class="media-object img-rounded img-responsive"  src="<?php echo base_url() . $storage['upload_path'] . $storage['new_image'] ?>" alt="" >
                                                 </figure>
                                             </div>
                                             <div class="col-md-6">
@@ -256,13 +262,17 @@
                                 <?php foreach ($application as $key => $value) : ?>
                         <a href="<?= base_url('app') . '/' . $value['id'] ?>" class="list-group-item well">
                             <div class="media">
+							<?php 						
+								$thumbnail = search($value['course']['storage'], 'filename', '300x180');
+								$storage = end($thumbnail);
+							?>
                                 <?php if ($value['application_flow_id'] == 1): ?>
                                     <span class="label label-danger pull-right"><?= ($value['flow']) ? $value['flow']['name'] : '' ?></span>                            
                                 <?php elseif ($value['application_flow_id'] == 3): ?>
                                     <span class="label label-success pull-right"><?= ($value['flow']) ? $value['flow']['name'] : '' ?></span>                            
                                 <?php endif; ?>
                                 <div class="pull-left">
-                                    <img class="media-object" src="<?= base_url() . $value['course']['storage'][0]['upload_path'] . $value['course']['storage'][0]['new_image'] ?>" alt="Image">
+                                    <img class="media-object" src="<?= base_url() . $storage['upload_path'] . $storage['new_image'] ?>" alt="Image">
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading"><?php echo $value['course']['name'] ?></h4>

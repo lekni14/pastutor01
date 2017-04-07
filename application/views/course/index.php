@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php $this->load->view('template/css'); ?>    
+	<?php $this->load->view('admin/template/phpfunction'); ?> 
     <body>
         <?php $this->load->view('template/nav'); ?>  
         <?php // $this->load->view('template/header'); ?>      
@@ -25,7 +26,11 @@
                     <?php if(strtotime(date('Y-m-d'))<strtotime($this->Mcourse_location->get_course_end_date_by_course($value['id']))):  ?>
                 <div class="item col-xs-12 col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <?php echo anchor('course/'.$value['id'],'<img class="group list-group-image" src="'.base_url().$value['storage'][0]['upload_path'].$value['storage'][0]['new_image'].'" alt="" />'); ?>                        
+					<?php 						
+						$thumbnail = search($value['storage'], 'filename', '300x180');
+						$storage = end($thumbnail);
+					?>
+                        <?php echo anchor('course/'.$value['id'],'<img class="group list-group-image" src="'.base_url().$storage['upload_path'].$storage['new_image'].'" alt="" />'); ?>                        
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading"><?=$value['name']?></h4>
                             <p class="group inner list-group-item-text">

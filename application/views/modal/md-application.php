@@ -1,4 +1,5 @@
 <?php $this->load->view('template/ThaiDate'); ?> 
+<?php $this->load->view('admin/template/phpfunction'); ?> 
 <div class="list-group">
     <?php if($application): foreach ($application as $key => $value) :?>
     <li href="#" class="list-group-item">
@@ -13,7 +14,11 @@
             </a>
             <?php endif;?>
             <div class="pull-left">
-                <img class="media-object" width="100" height="70" src="<?= base_url().$value['course']['storage'][0]['upload_path'] . $value['course']['storage'][0]['new_image'] ?>" alt="Image">
+			<?php 						
+						$thumbnail = search($value['course']['storage'], 'filename', '300x180');
+						$storage = end($thumbnail);
+					?>
+                <img class="media-object" width="100" height="70" src="<?= base_url().$storage['upload_path'] . $storage['new_image'] ?>" alt="Image">
             </div>
             <div class="media-body">
                 <h4 class="media-heading"><?php echo $value['course']['name']?></h4>
